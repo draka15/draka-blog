@@ -3,13 +3,16 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Draka Blog
-subtitle: ''
-description: 'This is the description'
+title: The Draka Blog
+subtitle: 'subtitle'
+description: 'Hey there, and welcome to my corner of the internet! I am Luca, a passionate enthusiast of computer and cybersecurity. I work as a penetration tester and red teamer for a consulting company, where I’ve gained considerable experience. I really enjoy experimenting with different things and making life a bit more challenging for myself. So, in this blog, you’ll find tutorials, ethical reflections, experiments, challenges, tips and technical analyses.
+
+
+I hope my posts can brighten your day, be useful, or inspire you for your own projects. My goal is to create something constructive and valuable both for myself and for those who choose to follow me, so feel free to contribute by sharing comments, suggestions, or any other kind of interaction, they are all welcome!'
 keywords:
 author: Luca Santini
 language: en
-timezone: ''
+timezone: 'Europe/Rome'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'

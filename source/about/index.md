@@ -1,11 +1,14 @@
 ---
 title: about
-date: 2024-12-16 21:06:28
+date: 2024-12-17 19:02:28
 ---
-![](/images/image.jpg)
-# whoami
-Hey, hello there! 👋 I am Luca, I am a passionate computer enthusiast since I was a kid. I first started getting into computers through video games, with which I spent a lot of time during my youth. My first experiments began with cheats and mods for video games, as a self-taught learner. They were then refined in university when I started taking things seriously and studying computer science from the theoretical foundations. Fast forward to today, computer science and technology have become my career. I work as Penetration Tester and Red Teamer at Spike Reply.
+# Whoami
+Hey, hello there! 👋 I am Luca Santini. Ever since I was a kid, I’ve been passionate about computers, and that enthusiasm has only grown over the years. My journey started with video games, I spent hours playing and eventually tinkering with cheats and mods. Self-taught at first, I then got serious about computer science at university, diving into the theoretical foundations. Fast forward to today, and technology has become my career. I'm now a Penetration Tester and Red Teamer at Spike Reply.
 
-I was born and raised in Senigallia, a city by the sea in Italy, in the Marche region. I have always been passionate about math and science, and after completing my scientific high school diploma, I moved to Milan to study Computer Engineering at the Politecnico di Milano. After earning both my bachelor's and master's degrees, I officially entered the world of cybersecurity by joining a consulting company. There, I gained my first experiences as a consultant and worked for many different companies as a penetration tester. I have always studied on my own to improve my knowledge, and I have earned several certifications that guided me through the vast field of cybersecurity. Some of the certifications I am most proud of are OSCP, eCPTx, and OSEP.
+I was born and raised in Senigallia, a seaside town in Italy, in the Marche region. Growing up, math and science were my passions, so after high school, I moved to Milan to study Computer Science and Engineering at the Politecnico di Milano. After earning both my bachelor's and master's degrees, I entered the world of cybersecurity, joining a consulting company where I got hands-on experience as a penetration tester for a variety of clients. Along the way, I also earned several certifications, including OSCP, eCPTx, and OSEP, all of which helped guide me through the vast field of cybersecurity.
 
-As a penetration tester, I have scratched the surface of various topics. I have performed penetration testing activities on web applications, mobile applications, individual machines, entire infrastructures, Wi-Fi networks, and various IoT devices. It is here that I began to take an interest in adversarial emulation and red teaming.  For me, red teaming is a mix of various skills and knowledge, combined with a bit of creativity and madness. It contains a little bit of everything, and that's why I love it.
+In my career, I’ve explored many areas of cybersecurity: from testing web and mobile applications to trying to pwn entire infrastructures, Wi-Fi networks, and IoT devices. Along the way, I discovered my love for red teaming, a field that combines various skills, knowledge, creativity, and, let’s be honest, a bit of madness. It’s this mix of everything that keeps me excited about the work I do.
+
+Feel free to explore the blog and connect with me on my journey through the fascinating world of cybersecurity!
+
+![background](/images/about.webp)
