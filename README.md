@@ -12,7 +12,7 @@ If you'd like to view this blog on your own machine, follow the steps below to r
 
 Make sure you have the following installed:
 - [Node.js](https://nodejs.org/)
-- [Git] (https://git-scm.com/)
+- [Git](https://git-scm.com/)
 - [Hexo](https://hexo.io/)
   
 ### Steps
