@@ -9,6 +9,4 @@ I was born and raised in Senigallia, a seaside town in Italy, in the Marche regi
 
 In my career, I’ve explored many areas of cybersecurity: from testing web and mobile applications to trying to pwn entire infrastructures, Wi-Fi networks, and IoT devices. Along the way, I discovered my love for red teaming, a field that combines various skills, knowledge, creativity, and, let’s be honest, a bit of madness. It’s this mix of everything that keeps me excited about the work I do.
 
-Feel free to explore the blog and connect with me on my journey through the fascinating world of cybersecurity!
-
 ![background](/images/about.webp)
