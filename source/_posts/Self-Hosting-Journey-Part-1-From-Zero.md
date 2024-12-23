@@ -24,7 +24,7 @@ Self-hosting refers to the practice of hosting and managing applications on your
 
 All of these services have self-hosted alternatives that you can run on your hardware (a mini-pc, a laptop, a Raspberry PI, or other board), giving you complete control and autonomy over your data and applications.
 
-{% asset_img self_hosting_1.png 620 620 %}
+{% asset_img self_hosting_1.png 620 620 '"Cloud vs Self-Hosting" "Comparison between cloud and self-hosting solution"' %}
 
 ## Why Start Self-Hosting?
 
@@ -56,7 +56,7 @@ If you don’t want to stop using internet services, which in today’s world wo
 Security, privacy, and usability are a trade-off, and balancing them is one of the most difficult tasks to face. However, this must be our objective.  
 I believe that self-hosting is a powerful "tool" that gives you the opportunity to gain better control over this trade-off and helps you bring it closer to your set point.
 
-If I moved you interest about the privacy topic I strongly recommend you to have a look at: https://www.privacyguides.org/en/
+If I moved you interest about the privacy topic I strongly recommend you to have a look at: {% link "Privacy Guides" "https://www.privacyguides.org/en/" %}
 
 ### Further Considerations
 
@@ -64,7 +64,7 @@ Have you ever thought about the possibility that your cloud accounts could be ba
 A few months ago, my TikTok account was banned by an automatic algorithm without any valid reason. I was lucky, after filing a claim, my account was reinstated in a few months. I had used TikTok occasionally and mainly passively (never posted a video or commented on a post), so I didn’t care much about the account. However, some people today rely on these accounts for work, and a ban could have a significant impact on their business (for example, think of an influencer).  
 I repeat, I was fortunate that I didn’t use the account extensively, but Mark was not as lucky as I was. Mark, a man from San Francisco, was banned by Google after he sent an image of his son's genitals to a doctor via his smartphone, using Google services. The image was flagged by an automatic algorithm, and he was banned for sharing sexual abuse material. As a result, Mark was blocked from all Google services, including voice and data traffic on his mobile phone, since it was connected to Google Fi. Furthermore, he was investigated and had to undergo a judicial process, which ultimately ended in his acquittal.
 
-Full article at: https://www.nytimes.com/2022/08/21/technology/google-surveillance-toddler-photo.html
+Full article at: {% link "New York Times Article" "https://www.nytimes.com/2022/08/21/technology/google-surveillance-toddler-photo.html" %}
 
 ## Common Use-Cases
 
@@ -100,7 +100,7 @@ For most of the cases, you don't need an expensive server, especially when you a
 - **Raspberry Pi:** For low-power, cost-effective setups, a Raspberry Pi or a similar board is an excellent option.
 - **Dedicated Server or VPS:** You could also use a dedicated server or a Virtual Private Server (VPS) from a provider like DigitalOcean or Linode. This option could be convenient, but I would not recommend it. This option shifts some responsibilities to your VPS provider, potentially reducing some of the self-hosting advantages discussed before and adding additional costs for renting the VPS.
 
-{% asset_img self_hosting_2.png 400 400 %}
+{% asset_img self_hosting_2.png 400 400 '"Self-Hosting Equipment" "A router and a raspberry pi"' %}
 
 ## My Self-Hosting Project
 In my self-hosting project, I have set several key goals that align with my professional growth. Below is an outline of what I aim to achieve:
