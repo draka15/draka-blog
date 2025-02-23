@@ -104,4 +104,7 @@ theme: cactus
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: https://github.com/draka15/draka-blog
+  branch: gh-pages
+
