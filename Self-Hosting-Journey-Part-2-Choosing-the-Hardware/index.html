@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Selecting the hardware for your self-hosted environment is one of the most critical decisions you’ll make. It’s not just about picking components; it’s about creating a setup that aligns with your goa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Self-Hosting Journey - Part 2 - Choosing the Hardware">
+<meta property="og:url" content="https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/">
+<meta property="og:site_name" content="The Draka Blog">
+<meta property="og:description" content="Selecting the hardware for your self-hosted environment is one of the most critical decisions you’ll make. It’s not just about picking components; it’s about creating a setup that aligns with your goa">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/self_hosting_2_1.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/asrock_n100dc.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/case_jonsbo_n2.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/zima.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/cwwk_x86_nas.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/minipc.png">
+<meta property="article:published_time" content="2024-12-23T12:48:38.000Z">
+<meta property="article:modified_time" content="2025-01-23T06:48:02.792Z">
+<meta property="article:author" content="Luca Santini">
+<meta property="article:tag" content="Storage">
+<meta property="article:tag" content="Hardware">
+<meta property="article:tag" content="Mini-PC">
+<meta property="article:tag" content="NAS">
+<meta property="article:tag" content="RAID">
+<meta property="article:tag" content="Redundancy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/self_hosting_2_1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Self-Hosting Journey - Part 2 - Choosing the Hardware</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+    <script async defer
+            data-website-id="0a216adb-458c-44ec-a2ee-9cc08c2e9b45"
+            src="https://analytics.draka.me/script.js">
+    </script>
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/atom.xml" title="The Draka Blog" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Self-Hosting-Journey-Part-1-From-Zero/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&text=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&title=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&is_video=false&description=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Self-Hosting Journey - Part 2 - Choosing the Hardware&body=Check out this article: https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&title=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&title=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&title=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&title=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&name=Self-Hosting Journey - Part 2 - Choosing the Hardware&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&t=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Setting-the-Stage-Goals-and-Constraints"><span class="toc-number">1.</span> <span class="toc-text">Setting the Stage: Goals and Constraints</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#My-Goals"><span class="toc-number">1.1.</span> <span class="toc-text">My Goals</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Constraints"><span class="toc-number">1.2.</span> <span class="toc-text">Constraints</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#My-Starting-Point-Existing-Hardware"><span class="toc-number">1.3.</span> <span class="toc-text">My Starting Point: Existing Hardware</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#A-New-Device-Desiderata"><span class="toc-number">2.</span> <span class="toc-text">A New Device: Desiderata</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Option-1-ASRock-N100DC-ITX-Mini-ITX-Board"><span class="toc-number">2.1.</span> <span class="toc-text">Option 1: ASRock N100DC-ITX Mini-ITX Board</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Option-2-ZimaBlade-7700-NAS-Kit"><span class="toc-number">2.2.</span> <span class="toc-text">Option 2: ZimaBlade 7700 NAS Kit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Option-3-Mini-PC-Based-on-x86-P5-Board"><span class="toc-number">2.3.</span> <span class="toc-text">Option 3: Mini-PC Based on x86 P5 Board</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Choosing-Storage-HDD-SATA-SSD-or-NVMe-SSD"><span class="toc-number">2.4.</span> <span class="toc-text">Choosing Storage: HDD, SATA SSD, or NVMe SSD?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Final-Decision"><span class="toc-number">3.</span> <span class="toc-text">The Final Decision</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Understanding-PCIe-Lanes-and-NVMe-Connections"><span class="toc-number">3.1.</span> <span class="toc-text">Understanding PCIe Lanes and NVMe Connections</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Assembling-the-Pieces"><span class="toc-number">3.2.</span> <span class="toc-text">Assembling the Pieces</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">4.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Self-Hosting Journey - Part 2 - Choosing the Hardware
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Draka</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-12-23T12:48:38.000Z" class="dt-published" itemprop="datePublished">2024-12-23</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Self-Hosting/">Self-Hosting</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Hardware/" rel="tag">Hardware</a>, <a class="p-category" href="/tags/Mini-PC/" rel="tag">Mini-PC</a>, <a class="p-category" href="/tags/NAS/" rel="tag">NAS</a>, <a class="p-category" href="/tags/RAID/" rel="tag">RAID</a>, <a class="p-category" href="/tags/Redundancy/" rel="tag">Redundancy</a>, <a class="p-category" href="/tags/Storage/" rel="tag">Storage</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Selecting the hardware for your self-hosted environment is one of the most critical decisions you’ll make. It’s not just about picking components; it’s about creating a setup that aligns with your goals, fits your constraints, and inspires confidence in your system’s reliability. In this post, I’ll walk you through my thought process and share how I made my decision.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/self_hosting_2_1.png" alt="A question mark overlapped to some hardware" style="max-width: 60%; height: auto; border-radius: 8px;">
+  <p style="color: #f7f7c1; margin-top: 15px; font-style: italic; text-align: center;">How do I choose the Hardware?</p>
+</div>
+
+<h2 id="Setting-the-Stage-Goals-and-Constraints"><a href="#Setting-the-Stage-Goals-and-Constraints" class="headerlink" title="Setting the Stage: Goals and Constraints"></a><strong>Setting the Stage: Goals and Constraints</strong></h2><p>Before diving into hardware options, I want to clarify a key concept. There is no <strong>one-size-fits-all</strong> solution; every option has its pros and cons. One solution may be more suitable than another on a specific context, but there isn’t a global winner.</p>
+<p>Thus, the first step is to set my goals and constraints.</p>
+<h3 id="My-Goals"><a href="#My-Goals" class="headerlink" title="My Goals"></a><strong>My Goals</strong></h3><ol>
+<li><strong>24&#x2F;7 Availability:</strong> My services must be reliable and always accessible.</li>
+<li><strong>Secure Network:</strong> I want to proper structure the LAN dividing it in VLANs, like an enterprise setup.</li>
+<li><strong>Privacy and Data Ownership:</strong> I want to move away from Google Drive and store my photos and other archived data on my own hardware, accessing it in a convenient way.</li>
+<li><strong>Entertainment and Productivity:</strong> I want to host a streaming service and some other services for meal planning, trip organization, expense tracking and automation tasks.</li>
+<li><strong>Future Scalability:</strong> In the long term, I’d like to explore home automation.</li>
+</ol>
+<h3 id="Constraints"><a href="#Constraints" class="headerlink" title="Constraints"></a><strong>Constraints</strong></h3><ul>
+<li><strong>Budget:</strong> I don’t want to spend too much money, both hardware and operational costs (electricity) need to stay reasonable. To achieve this, I also plan to reuse some of the hardware I already have.</li>
+<li><strong>Space &amp; Noise:</strong> I live in a small apartment, so my setup needs to be small and quiet.</li>
+</ul>
+<h3 id="My-Starting-Point-Existing-Hardware"><a href="#My-Starting-Point-Existing-Hardware" class="headerlink" title="My Starting Point: Existing Hardware"></a><strong>My Starting Point: Existing Hardware</strong></h3><p>In the past, I already bought these devices that I will include in my self-hosting environment:</p>
+<ul>
+<li><p><strong>Raspberry Pi 4 Model B (Pi4B)</strong></p>
+<ul>
+<li><strong>CPU</strong>: ARM v8, SoC quad-core Cortex-A72 64bit running at 1,5GHz, Broadcom BCM2711</li>
+<li><strong>RAM</strong>: 2GB LPDDR4</li>
+<li><strong>Storage</strong>: 32GB SD card</li>
+<li><strong>Network</strong>: 1x Gigabit Ethernet port + 802.11 b&#x2F;g&#x2F;n&#x2F;ac Wireless LAN + Bluetooth 5.0 with BLE</li>
+<li><strong>Others</strong>: 2x micro-HDMI ports + 2x USB2 ports + 2x USB3 ports + 1x Raspberry Pi camera port + 1x Raspberry Pi display port + 1x GPIO</li>
+</ul>
+</li>
+<li><p><strong>HP EliteDesk 705 G5 Mini</strong></p>
+<ul>
+<li><strong>CPU</strong>: AMD Ryzen 5 Pro 3400G (4 cores, 8 threads, 3.7GHz up to 4.2GHz turbo, TDP 65W)</li>
+<li><strong>GPU</strong>: AMD Radeon Vega 11</li>
+<li><strong>RAM</strong>: 64GB Corsair Vengeance SODIMM DDR4 (2x32GB) 2666MHz</li>
+<li><strong>Storage</strong>: 2TB SSD SATA III 2.5”</li>
+<li><strong>Network</strong>: 1x Gigabit Ethernet port</li>
+</ul>
+</li>
+</ul>
+<p>These two devices could potentially be enough for my infrastructure, but they don’t fully meet all my requirements.<br>The <strong>Raspberry Pi</strong> is optimal for its low power consumption, but it lacks the processing power needed for hosting my environment.<br>The <strong>EliteDesk</strong>, while excellent in terms of performance, has insufficient storage space and isn’t ideal for a 24&#x2F;7 environment due to its power consumption. </p>
+<p>So, I decided to buy a new device that addresses the shortcomings of these two and provides a perfect foundation for my environment.</p>
+<h2 id="A-New-Device-Desiderata"><a href="#A-New-Device-Desiderata" class="headerlink" title="A New Device: Desiderata"></a><strong>A New Device: Desiderata</strong></h2><p>I identified these key criteria for the new device I had decided to buy:</p>
+<ol>
+<li><strong>RAM:</strong> I don’t need to host CPU-intensive applications, and I have only two users to serve (myself and my girlfriend), so I don’t have high requirements for the CPU. However, I plan to host many applications, so a good amount of RAM is necessary.</li>
+<li><strong>Storage:</strong> Archiving all multimedia and documents requires plenty of space.</li>
+<li><strong>Disk Redundancy:</strong> Data safety and reliability are non-negotiable; redundancy through RAID is a must.</li>
+<li><strong>Compact Size:</strong> It needs to fit into my limited space.</li>
+<li><strong>Quiet Operation:</strong> No one wants a noisy setup in their home.</li>
+<li><strong>Low Power Consumption:</strong> Essential for 24&#x2F;7 operation without breaking the bank.</li>
+<li><strong>Affordability:</strong> Performance matters, but it must stay within budget.</li>
+</ol>
+<p>The first step was to choose a base system compatible with multiple storage solutions. Next, I evaluated several storage options. Below are the three solutions considered for the base system. </p>
+<h3 id="Option-1-ASRock-N100DC-ITX-Mini-ITX-Board"><a href="#Option-1-ASRock-N100DC-ITX-Mini-ITX-Board" class="headerlink" title="Option 1: ASRock N100DC-ITX Mini-ITX Board"></a><strong>Option 1: ASRock N100DC-ITX Mini-ITX Board</strong></h3><p>The first option I evaluated was building a system based on a mini-ITX motherboard. This involved purchasing a motherboard with an integrated CPU, RAM, a power supply, and a case compatible with redundant storage.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/asrock_n100dc.png" alt="An image of the ASRock N100DC-ITX board" style="max-width: 60%; height: auto; border-radius: 8px;">
+  <p style="color: #f7f7c1; margin-top: 15px; font-style: italic; text-align: center;">ASRock N100DC-ITX</p>
+</div>
+
+<p>Here’s an overview of the components and their costs for this solution:</p>
+<ul>
+<li><strong>ASRock N100DC-ITX</strong>: €135</li>
+<li><strong>SO-DIMM DDR5 32GB RAM</strong>: €74.99</li>
+<li><strong>NAS Case (Jonsbo N2)</strong>: €140 – A compact and stylish case that accommodates HDDs and fits the board perfectly.</li>
+<li><strong>Corsair SF450 Power Supply</strong>: €100</li>
+</ul>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/case_jonsbo_n2.png" alt="An image of the Jonsbo N2 NAS Case" style="max-width: 60%; height: auto; border-radius: 8px;">
+  <p style="color: #f7f7c1; margin-top: 15px; font-style: italic; text-align: center;">NAS Case Jonsbo N2</p>
+</div>
+
+<p>For powering the system, I chose to use an ATX power supply instead of a traditional picoPSU because the <strong>ASRock N100DC-ITX</strong> can support only <strong>two 3.5-inch HDDs</strong>, due to its <strong>4-pin JST SATA power connector</strong>. The board’s SATA power interface is rated for <strong>2A</strong>, but a typical <strong>7200 RPM 3.5-inch HDD</strong> can draw up to <strong>2.5A during spin-up</strong>. This occurs when the drives are awakened from sleep, which could potentially strain the power supply. Although this is not a frequent event, it presents a risk for a system intended for continuous 24&#x2F;7 operation.</p>
+<p>To create a scalable system that could handle more than two <strong>3.5-inch HDDs</strong>, I found the following solution:</p>
+<ol>
+<li>Buy a <strong>modular ATX power supply</strong>, such as the <strong>Corsair SF450</strong>, which offers reliable power delivery.</li>
+<li>Build a custom cable using a <strong>4-pin JST cable</strong> and a <strong>DC jack-to-terminal adapter</strong> to connect the PSU to the board.</li>
+<li>Manually jump the ATX connector with a wire to turn on the power supply without relying on the motherboard’s signal.</li>
+</ol>
+<p>Here’s an overview of the final specifics for this solution:</p>
+<ul>
+<li><strong>Processor:</strong> Intel N100 (12th Gen, 4 cores, 6W TDP)</li>
+<li><strong>RAM:</strong> Supports up to 32GB SO-DIMM DDR4</li>
+<li><strong>Storage:</strong> 2x SATA III ports with PCIe Gen 3 expansion</li>
+<li><strong>Networking:</strong> 1x Gbit Ethernet (GbE) LAN port and 1x PCIe M.2 E-Key slot for a Wi-Fi adapter</li>
+<li><strong>Price:</strong> ~€450 (fully built with case and PSU)</li>
+</ul>
+<p>While this option is very interesting because it offers modern technology and expandability, it requires complex power modifications to support additional HDDs and it is also expensive.</p>
+<h3 id="Option-2-ZimaBlade-7700-NAS-Kit"><a href="#Option-2-ZimaBlade-7700-NAS-Kit" class="headerlink" title="Option 2: ZimaBlade 7700 NAS Kit"></a><strong>Option 2: ZimaBlade 7700 NAS Kit</strong></h3><p>The second option I evaluated was a ready-to-use solution based on an excellent x86 board called <a href="https://www.zimaspace.com/products/blade-personal-nas?utm_source=head&utm_medium=menu" title="" target="">ZimaBlade</a>, with the following specifications:</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/zima.png" alt="An image of the zimablade board" style="max-width: 60%; height: auto; border-radius: 8px;">
+  <p style="color: #f7f7c1; margin-top: 15px; font-style: italic; text-align: center;">Zimablade 7700</p>
+</div>
+
+<ul>
+<li><strong>Processor:</strong> Intel Celeron N3450 (4 cores, 6W TDP).</li>
+<li><strong>RAM:</strong> Supports up to 16GB DDR3L.</li>
+<li><strong>Storage:</strong> 2x SATA III ports with PCIe 2.0 expansion which allows for the addition of up to 4 additional SATA ports.</li>
+<li><strong>Networking</strong>: 1x Gbit Ethernet (GbE) LAN port.</li>
+<li><strong>Price:</strong> ~€187 (with taxes).</li>
+</ul>
+<p>The price of this solution refers to the NAS kit bundle, which includes 16GB of RAM and a bay rack for up to two 3.5-inch HDDs.<br>While this solution is the only one ready out-of-the-box, and is both affordable and compact, its older processor and limited scalability do not align with my future needs. Additionally, expanding beyond two HDDs could strain the power adapter, requiring additional power management solutions.</p>
+<h3 id="Option-3-Mini-PC-Based-on-x86-P5-Board"><a href="#Option-3-Mini-PC-Based-on-x86-P5-Board" class="headerlink" title="Option 3: Mini-PC Based on x86 P5 Board"></a><strong>Option 3: Mini-PC Based on x86 P5 Board</strong></h3><p>This third option is a compact and versatile mini-PC based on the <strong>x86 P5 board</strong> by <a href="https://cwwk.net/" title="" target="">CWWK</a>. This is an overview of the specification: </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/cwwk_x86_nas.png" alt="An image of the CWWK x86 Board" style="max-width: 60%; height: auto; border-radius: 8px; ">
+  <p style="color: #f7f7c1; margin-top: 15px; font-style: italic; text-align: center;">CWWK x86 P5 Development Board</p>
+</div>
+
+<ul>
+<li><strong>Processor:</strong> Intel N100 (12th Gen, 4 cores, 6W TDP).</li>
+<li><strong>RAM:</strong> 1x slot supports up to 48GB SO-DIMM DDR5 4800MHz.</li>
+<li><strong>Storage:</strong> 1x PCIe 3x4 lane which supports 4x NVMe Gen 3 slots.</li>
+<li><strong>Networking:</strong> 2x 2.5Gbit Ethernet (GbE) LAN ports and 1x PCIe M.2 E-Key slot for a Wi-Fi adapter.</li>
+<li><strong>Price:</strong> ~€233  (€158.70 for barebone configuration + €74.99 for 32GB RAM).</li>
+</ul>
+<p>This option offers the perfect balance of performance, power efficiency, and expandability. Its compact size (10x10x5.85 cm) and low power consumption make it ideal for my space.</p>
+<h3 id="Choosing-Storage-HDD-SATA-SSD-or-NVMe-SSD"><a href="#Choosing-Storage-HDD-SATA-SSD-or-NVMe-SSD" class="headerlink" title="Choosing Storage: HDD, SATA SSD, or NVMe SSD?"></a><strong>Choosing Storage: HDD, SATA SSD, or NVMe SSD?</strong></h3><p>When planning a storage solution, one of the most critical decisions is selecting the type of storage. Here’s a quick comparison of the most popular storage technology options:</p>
+<div style="width: 100%; margin: 20px auto; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border-radius: 8px;">
+  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: white; border: 1px solid black;">
+    <colgroup>
+      <col style="width: 25%;">
+      <col style="width: 25%;">
+      <col style="width: 25%;">
+      <col style="width: 25%;">
+    </colgroup>
+    <thead>
+      <tr style="background-color: #ffd700;">
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Type</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Pros</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Cons</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Best Use Case</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; font-weight: 700; border: 1px solid black;">HDD</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">High capacity, lower cost per TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Noisy, high power consumption, slow speed</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Large, static data (backups)</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; font-weight: 700; border: 1px solid black;">SATA SSD</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Faster, silent</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Limited capacity, higher cost per TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Balanced performance/capacity</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; font-weight: 700; border: 1px solid black;">NVMe SSD</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Compact, silent, highest speed</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Limited capacity, higher cost per TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">High-speed apps and NAS setups</td>
+      </tr>
+    </tbody>
+  </table>
+      <p style="text-align: center;">HDD 3.5-inch SATA III Comparison Table</p>
+</div>
+
+<p>Here’s a quick comparison of the products I found and their approximate prices at the time I searched:</p>
+<div style="width: 100%; margin: 20px auto; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border-radius: 8px;">
+  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: white; border: 1px solid black;">
+    <colgroup>
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+    </colgroup>
+    <thead>
+      <tr style="background-color: #ffd700;">
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Model</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">RPM</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Transfer Rate (MB/s)</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Workloads (TB/Year)</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Price (€)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">WD Red Plus 2TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">5400</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">98.00</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">WD Red Plus 4TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">5400</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">185</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">130.00</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Seagate IronWolf 2TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">5900</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">90.00</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Seagate IronWolf 4TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">5900</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">124.00</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Seagate IronWolf Pro 2TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">7200</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">195</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">300</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">116.00</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Seagate IronWolf Pro 4TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">7200</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">214</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">300</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">140.00</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Toshiba N300 4TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">7200</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">204</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">130.00</td>
+      </tr>
+    </tbody>
+  </table>
+      <p style="text-align: center;">HDD 3.5-inch SATA III Comparison Table</p>
+</div>
+
+<div style="width: 100%; margin: 20px auto; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border-radius: 8px;">
+  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: white; border: 1px solid black;">
+    <colgroup>
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+    </colgroup>
+    <thead>
+      <tr style="background-color: #ffd700;">
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Model</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Seq Write Speed (MB/s)</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Seq Read Speed (MB/s)</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">TBW (TB)</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Price (€)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">WD Red SATA SA500 1TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">530</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">560</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">600</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">110.79</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">WD Red SATA SA500 2TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">530</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">560</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">1,300</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">59.17</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Samsung 870 EVO 1TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">530</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">560</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">600</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">156.99</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Samsung 870 EVO 2TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">530</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">560</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">1,200</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">89.99</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Crucial MX500 1TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">510</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">560</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">360</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">101.99</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Crucial MX500 2TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">510</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">560</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">700</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">53.99</td>
+      </tr>
+    </tbody>
+  </table>
+    <p style="text-align: center;">SSD SATA III Comparison Table</p>
+</div>
+
+<div style="width: 100%; margin: 20px auto; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border-radius: 8px;">
+  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: white; border: 1px solid black;">
+    <colgroup>
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+    </colgroup>
+    <thead>
+      <tr style="background-color: #ffd700;">
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Model</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Seq Write Speed (MB/s)</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Seq Read Speed (MB/s)</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">TBW (TB)</th>
+        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Price (€)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Crucial P3 2TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3000</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3500</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">440</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">110.79</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Crucial P3 1TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3000</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3500</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">220</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">59.17</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">WD Red SN700 2TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">2900</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3430</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3000</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">156,99</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">WD Red SN700 1TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3000</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3400</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">2500</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">89,99</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Fikwot FN501 Pro 2TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3150</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3500</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">1280</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">64</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Fikwot FN501 Pro 1TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3150</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3500</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">640</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">38</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Ediloca EN600 Pro 2TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3000</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3500</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">1280</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">64</td>
+      </tr>
+      <tr style="color: black;">
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">Ediloca EN600 Pro 1TB</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3000</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">3500</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">640</td>
+        <td style="padding: 12px; text-align: center; border: 1px solid black;">38</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="text-align: center;">SSD NVMe Gen 3 Comparison Table</p>
+</div>
+
+<p>The <strong>TBW (Terabytes Written)</strong> metric is a critical factor in assessing the durability of SSDs. It indicates the maximum amount of data a drive can write over its lifetime, as declared by the vendor. </p>
+<h2 id="The-Final-Decision"><a href="#The-Final-Decision" class="headerlink" title="The Final Decision"></a><strong>The Final Decision</strong></h2><p>After weighing the pros and cons, I decided on the <strong>Mini-PC x86 P5 with NVMe SSDs</strong>. This setup met all my requirements and stayed within budget. Here’s the breakdown of the costs:</p>
+<ul>
+<li><strong>Mini-PC (barebone):</strong> €158.70</li>
+<li><strong>32GB DDR5 RAM:</strong> €74.99</li>
+<li><strong>3x NVMe SSDs (2TB each):</strong> €207</li>
+<li><strong>Total Cost:</strong> €440</li>
+</ul>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/minipc.png" alt="An image of the mini-pc" style="max-width: 60%; height: auto; border-radius: 8px;">
+  <p style="color: #f7f7c1; margin-top: 15px; font-style: italic; text-align: center;">Mini-PC x86 P5</p>
+</div>
+
+<h3 id="Understanding-PCIe-Lanes-and-NVMe-Connections"><a href="#Understanding-PCIe-Lanes-and-NVMe-Connections" class="headerlink" title="Understanding PCIe Lanes and NVMe Connections"></a>Understanding PCIe Lanes and NVMe Connections</h3><p>A limitation of the setup I chose is that the four NVMe SSD slots share the same single PCIe 3.0 x4 interface.</p>
+<p>PCIe (Peripheral Component Interconnect Express) is a high-speed interface that allows devices like NVMe SSDs to communicate with the motherboard and CPU. Each PCIe connection consists of <strong>lanes</strong>, which are individual data pathways made up of one pair of wires for sending data and another for receiving it. The more lanes a device has, the greater its potential bandwidth.</p>
+<p>For example, an <strong>NVMe SSD connected via PCIe 3.0 x4</strong> utilizes <strong>four lanes</strong> of PCIe 3.0. Each lane in PCIe 3.0 provides a theoretical bandwidth of <strong>1 GB&#x2F;s in each direction</strong>, meaning a x4 connection can achieve up to <strong>4 GB&#x2F;s</strong> of throughput. This makes PCIe 3.0 x4 ideal for high-performance NVMe SSDs, enabling their fast read and write speeds to be fully utilized.</p>
+<p>In my configuration, the NVMe SSDs are connected through a single <strong>PCIe 3.0 x4</strong> slot, meaning the available bandwidth is shared among all the connected devices. While PCIe 3.0 x4 can theoretically support up to <strong>4 GB&#x2F;s</strong> of total throughput, this bandwidth is divided among all drives using the same connection. As a result, the <strong>read and write speeds</strong> of each individual NVMe SSD are lower than their maximum potential speeds due to the shared bandwidth.</p>
+<h3 id="Assembling-the-Pieces"><a href="#Assembling-the-Pieces" class="headerlink" title="Assembling the Pieces"></a>Assembling the Pieces</h3><p>After purchasing all the necessary components, it’s time for a bit of hands-on work to assemble everything. The process is quite simple, and in the following video, you’ll see a summary of the assembly phase.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+<video width="500" height="500" controls autoplay loop muted poster="minipc_poster.jpg"> 
+<source src="/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/assembling.mp4" type="video/mp4"> Your browser does not support the video tag. 
+</video>
+  <p style="color: #f7f7c1; margin-top: 15px; font-style: italic; text-align: center;">Assembling the Pieces</p>
+</div>
+
+
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a><strong>Conclusion</strong></h2><p>In this blog post, we’ve explored the <strong>first phase</strong> of planning our self-hosting environment, focusing on <strong>hardware selection</strong>. We discussed the reasoning behind our device choices and learned that the best way to start is by <strong>understanding and defining your goals</strong> and <strong>limitations</strong>. Remember, the perfect setup is the one that works for <strong>you</strong>. In the next post, we’ll look at how to design the <strong>physical</strong> and <strong>logical architecture</strong> of our solution.</p>
+<p><strong>Stay tuned! 🚀</strong> </p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Setting-the-Stage-Goals-and-Constraints"><span class="toc-number">1.</span> <span class="toc-text">Setting the Stage: Goals and Constraints</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#My-Goals"><span class="toc-number">1.1.</span> <span class="toc-text">My Goals</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Constraints"><span class="toc-number">1.2.</span> <span class="toc-text">Constraints</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#My-Starting-Point-Existing-Hardware"><span class="toc-number">1.3.</span> <span class="toc-text">My Starting Point: Existing Hardware</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#A-New-Device-Desiderata"><span class="toc-number">2.</span> <span class="toc-text">A New Device: Desiderata</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Option-1-ASRock-N100DC-ITX-Mini-ITX-Board"><span class="toc-number">2.1.</span> <span class="toc-text">Option 1: ASRock N100DC-ITX Mini-ITX Board</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Option-2-ZimaBlade-7700-NAS-Kit"><span class="toc-number">2.2.</span> <span class="toc-text">Option 2: ZimaBlade 7700 NAS Kit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Option-3-Mini-PC-Based-on-x86-P5-Board"><span class="toc-number">2.3.</span> <span class="toc-text">Option 3: Mini-PC Based on x86 P5 Board</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Choosing-Storage-HDD-SATA-SSD-or-NVMe-SSD"><span class="toc-number">2.4.</span> <span class="toc-text">Choosing Storage: HDD, SATA SSD, or NVMe SSD?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Final-Decision"><span class="toc-number">3.</span> <span class="toc-text">The Final Decision</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Understanding-PCIe-Lanes-and-NVMe-Connections"><span class="toc-number">3.1.</span> <span class="toc-text">Understanding PCIe Lanes and NVMe Connections</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Assembling-the-Pieces"><span class="toc-number">3.2.</span> <span class="toc-text">Assembling the Pieces</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">4.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&text=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&title=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&is_video=false&description=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Self-Hosting Journey - Part 2 - Choosing the Hardware&body=Check out this article: https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&title=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&title=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&title=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&title=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&name=Self-Hosting Journey - Part 2 - Choosing the Hardware&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://draka15.github.io/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/&t=Self-Hosting Journey - Part 2 - Choosing the Hardware"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2025
+    Luca Santini
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
