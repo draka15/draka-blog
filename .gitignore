@@ -133,3 +133,4 @@ public/
 db.json
 yarn.lock
 package-lock.json
+.deploy_git/
