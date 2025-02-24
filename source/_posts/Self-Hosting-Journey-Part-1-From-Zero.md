@@ -121,3 +121,11 @@ In my self-hosting project, I have set several key goals that align with my prof
 Whether you're a **beginner** or have some **experience**, you're in the right place. Join me on this journey where I’ll share **valuable insights** and **practical tips** of any kind, covering everything from **hardware selection** and **benchmarking** to choosing the right **application tools** and implementing **cybersecurity-driven hardening techniques**.
 
 **Stay tuned for the next post!** 👋✨
+
+<script src="https://utteranc.es/client.js"
+        repo="draka15/draka-blog"
+        issue-term="pathname"
+        theme="gruvbox-dark"
+        crossorigin="anonymous"
+        async>
+</script>

@@ -151,8 +151,8 @@ This option offers the perfect balance of performance, power efficiency, and exp
 
 When planning a storage solution, one of the most critical decisions is selecting the type of storage. Here’s a quick comparison of the most popular storage technology options:
 
-<div style="width: 100%; margin: 20px auto; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border-radius: 8px;">
-  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: white; border: 1px solid black;">
+<div style="width: 100%; margin: 20px auto; padding: 20px; border-radius: 8px;">
+  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: #c9c9c9; border: 1px solid black;">
     <colgroup>
       <col style="width: 25%;">
       <col style="width: 25%;">
@@ -160,11 +160,11 @@ When planning a storage solution, one of the most critical decisions is selectin
       <col style="width: 25%;">
     </colgroup>
     <thead>
-      <tr style="background-color: #ffd700;">
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Type</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Pros</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Cons</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Best Use Case</th>
+      <tr style="background-color: #ffb300;">
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Type</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Pros</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Cons</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Best Use Case</th>
       </tr>
     </thead>
     <tbody>
@@ -193,8 +193,8 @@ When planning a storage solution, one of the most critical decisions is selectin
 
 Here’s a quick comparison of the products I found and their approximate prices at the time I searched:
 
-<div style="width: 100%; margin: 20px auto; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border-radius: 8px;">
-  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: white; border: 1px solid black;">
+<div style="width: 100%; margin: 20px auto; padding: 20px; border-radius: 8px;">
+  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: #c9c9c9; border: 1px solid black;">
     <colgroup>
       <col style="width: 20%;">
       <col style="width: 20%;">
@@ -203,12 +203,12 @@ Here’s a quick comparison of the products I found and their approximate prices
       <col style="width: 20%;">
     </colgroup>
     <thead>
-      <tr style="background-color: #ffd700;">
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Model</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">RPM</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Transfer Rate (MB/s)</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Workloads (TB/Year)</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Price (€)</th>
+      <tr style="background-color: #ffb300;">
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Model</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">RPM</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Transfer Rate (MB/s)</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Workloads (TB/Year)</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Price (€)</th>
       </tr>
     </thead>
     <tbody>
@@ -266,8 +266,8 @@ Here’s a quick comparison of the products I found and their approximate prices
       <p style="text-align: center;">HDD 3.5-inch SATA III Comparison Table</p>
 </div>
 
-<div style="width: 100%; margin: 20px auto; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border-radius: 8px;">
-  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: white; border: 1px solid black;">
+<div style="width: 100%; margin: 20px auto; padding: 20px; border-radius: 8px;">
+  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: #c9c9c9; border: 1px solid black;">
     <colgroup>
       <col style="width: 20%;">
       <col style="width: 20%;">
@@ -276,12 +276,12 @@ Here’s a quick comparison of the products I found and their approximate prices
       <col style="width: 20%;">
     </colgroup>
     <thead>
-      <tr style="background-color: #ffd700;">
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Model</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Seq Write Speed (MB/s)</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Seq Read Speed (MB/s)</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">TBW (TB)</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Price (€)</th>
+      <tr style="background-color: #ffb300;">
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Model</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Seq Write Speed (MB/s)</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Seq Read Speed (MB/s)</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">TBW (TB)</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Price (€)</th>
       </tr>
     </thead>
     <tbody>
@@ -332,8 +332,8 @@ Here’s a quick comparison of the products I found and their approximate prices
     <p style="text-align: center;">SSD SATA III Comparison Table</p>
 </div>
 
-<div style="width: 100%; margin: 20px auto; padding: 20px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); border-radius: 8px;">
-  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: white; border: 1px solid black;">
+<div style="width: 100%; margin: 20px auto; padding: 20px; border-radius: 8px;">
+  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: #c9c9c9; border: 1px solid black;">
     <colgroup>
       <col style="width: 20%;">
       <col style="width: 20%;">
@@ -342,12 +342,12 @@ Here’s a quick comparison of the products I found and their approximate prices
       <col style="width: 20%;">
     </colgroup>
     <thead>
-      <tr style="background-color: #ffd700;">
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Model</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Seq Write Speed (MB/s)</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Seq Read Speed (MB/s)</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">TBW (TB)</th>
-        <th style="padding: 12px; color: white; font-weight: 700; text-align: center; border: 2px solid black;">Price (€)</th>
+      <tr style="background-color: #ffb300;">
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Model</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Seq Write Speed (MB/s)</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Seq Read Speed (MB/s)</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">TBW (TB)</th>
+        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Price (€)</th>
       </tr>
     </thead>
     <tbody>
@@ -455,4 +455,13 @@ After purchasing all the necessary components, it's time for a bit of hands-on w
 In this blog post, we've explored the **first phase** of planning our self-hosting environment, focusing on **hardware selection**. We discussed the reasoning behind our device choices and learned that the best way to start is by **understanding and defining your goals** and **limitations**. Remember, the perfect setup is the one that works for **you**. In the next post, we'll look at how to design the **physical** and **logical architecture** of our solution.
 
 **Stay tuned! 🚀** 
+
+
+<script src="https://utteranc.es/client.js"
+        repo="draka15/draka-blog"
+        issue-term="pathname"
+        theme="gruvbox-dark"
+        crossorigin="anonymous"
+        async>
+</script>
 
