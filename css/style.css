@@ -1328,6 +1328,14 @@ article .content .caption {
     text-align: left;
   }
 }
+.intro-text {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.intro-text p {
+  font-size: 16px;
+  color: #c9cacc;
+}
 .blog-post-comments {
   margin-top: 4rem;
 }
@@ -1460,6 +1468,14 @@ article .content .caption {
 .search-no-result {
   display: none;
   padding-bottom: 0.5em;
+  color: #c9cacc;
+}
+.intro-text {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.intro-text p {
+  font-size: 16px;
   color: #c9cacc;
 }
 #tag-cloud .tag-cloud-title {
