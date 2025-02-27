@@ -2,6 +2,7 @@
 title: Self-Hosting Journey - Part 2 - Choosing the Hardware
 date: 2024-12-23 13:48:38
 author: Draka
+comments: true
 categories:
   - Self-Hosting
 tags:
@@ -455,13 +456,4 @@ After purchasing all the necessary components, it's time for a bit of hands-on w
 In this blog post, we've explored the **first phase** of planning our self-hosting environment, focusing on **hardware selection**. We discussed the reasoning behind our device choices and learned that the best way to start is by **understanding and defining your goals** and **limitations**. Remember, the perfect setup is the one that works for **you**. In the next post, we'll look at how to design the **physical** and **logical architecture** of our solution.
 
 **Stay tuned! 🚀** 
-
-
-<script src="https://utteranc.es/client.js"
-        repo="draka15/draka-blog"
-        issue-term="pathname"
-        theme="gruvbox-dark"
-        crossorigin="anonymous"
-        async>
-</script>
 

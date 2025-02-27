@@ -2,6 +2,7 @@
 title: Self-Hosting Journey - Part 1 - From Zero
 date: 2024-12-22 15:18:35
 author: Draka
+comments: true
 categories:
   - Self-Hosting
 tags:
@@ -122,10 +123,3 @@ Whether you're a **beginner** or have some **experience**, you're in the right p
 
 **Stay tuned for the next post!** 👋✨
 
-<script src="https://utteranc.es/client.js"
-        repo="draka15/draka-blog"
-        issue-term="pathname"
-        theme="gruvbox-dark"
-        crossorigin="anonymous"
-        async>
-</script>
