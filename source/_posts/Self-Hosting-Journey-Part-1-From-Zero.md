@@ -118,7 +118,7 @@ In my self-hosting project, I have set several key goals that align with my prof
 - Replace paid services with free self-hosted alternatives (e.g., file storage instead of Google Drive).
 - Choose low-power, silent hardware to reduce energy costs and noise.
 
----
+## Conclusion
 Whether you're a **beginner** or have some **experience**, you're in the right place. Join me on this journey where I’ll share **valuable insights** and **practical tips** of any kind, covering everything from **hardware selection** and **benchmarking** to choosing the right **application tools** and implementing **cybersecurity-driven hardening techniques**.
 
 **Stay tuned for the next post!** 👋✨

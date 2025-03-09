@@ -59,7 +59,7 @@ In the past, I already bought these devices that I will include in my self-hosti
 
 These two devices could potentially be enough for my infrastructure, but they don't fully meet all my requirements.
 The **Raspberry Pi** is optimal for its low power consumption, but it lacks the processing power needed for hosting my environment.
-The **EliteDesk**, while excellent in terms of performance, has insufficient storage space and isn't ideal for a 24/7 environment due to its power consumption. 
+The **EliteDesk**, while excellent in terms of performance, has insufficient storage space and isn't ideal for a 24/7 environment due to its power consumption.
 
 So, I decided to buy a new device that addresses the shortcomings of these two and provides a perfect foundation for my environment.
 
@@ -75,7 +75,7 @@ I identified these key criteria for the new device I had decided to buy:
 6. **Low Power Consumption:** Essential for 24/7 operation without breaking the bank.
 7. **Affordability:** Performance matters, but it must stay within budget.
 
-The first step was to choose a base system compatible with multiple storage solutions. Next, I evaluated several storage options. Below are the three solutions considered for the base system. 
+The first step was to choose a base system compatible with multiple storage solutions. Next, I evaluated several storage options. Below are the three solutions considered for the base system.
 
 ### **Option 1: ASRock N100DC-ITX Mini-ITX Board**
 The first option I evaluated was building a system based on a mini-ITX motherboard. This involved purchasing a motherboard with an integrated CPU, RAM, a power supply, and a case compatible with redundant storage.
@@ -133,7 +133,7 @@ The price of this solution refers to the NAS kit bundle, which includes 16GB of 
 While this solution is the only one ready out-of-the-box, and is both affordable and compact, its older processor and limited scalability do not align with my future needs. Additionally, expanding beyond two HDDs could strain the power adapter, requiring additional power management solutions.
 
 ### **Option 3: Mini-PC Based on x86 P5 Board**
-This third option is a compact and versatile mini-PC based on the **x86 P5 board** by {% link "CWWK" "https://cwwk.net/" %}. This is an overview of the specification: 
+This third option is a compact and versatile mini-PC based on the **x86 P5 board** by {% link "CWWK" "https://cwwk.net/" %}. This is an overview of the specification:
 
 <div style="text-align: center; margin: 20px 0; padding: 10px;">
   <img src="/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/cwwk_x86_nas.png" alt="An image of the CWWK x86 Board" style="max-width: 60%; height: auto; border-radius: 8px; ">
@@ -152,8 +152,8 @@ This option offers the perfect balance of performance, power efficiency, and exp
 
 When planning a storage solution, one of the most critical decisions is selecting the type of storage. Here’s a quick comparison of the most popular storage technology options:
 
-<div style="width: 100%; margin: 20px auto; padding: 20px; border-radius: 8px;">
-  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: #c9c9c9; border: 1px solid black;">
+<div style="width: 100%; line-height: 16px; margin: 20px auto; padding: 0; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+  <table style="width: 100%; border-collapse: collapse; font-family: 'Courier New', monospace; background-color: #333333; border: 1px solid #444444; border-radius: 8px;">
     <colgroup>
       <col style="width: 25%;">
       <col style="width: 25%;">
@@ -161,41 +161,42 @@ When planning a storage solution, one of the most critical decisions is selectin
       <col style="width: 25%;">
     </colgroup>
     <thead>
-      <tr style="background-color: #ffb300;">
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Type</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Pros</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Cons</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Best Use Case</th>
+      <tr style="background-color: #444444; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555; border-radius: 8px 8px 0 0;">Type</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">Pros</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">Cons</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">Best Use Case</th>
       </tr>
     </thead>
     <tbody>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; font-weight: 700; border: 1px solid black;">HDD</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">High capacity, lower cost per TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Noisy, high power consumption, slow speed</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Large, static data (backups)</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: center; border: 1px solid #555555;">HDD</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">High capacity, lower cost per TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Noisy, high power consumption, slow speed</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Large, static data (backups)</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; font-weight: 700; border: 1px solid black;">SATA SSD</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Faster, silent</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Limited capacity, higher cost per TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Balanced performance/capacity</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: center; border: 1px solid #555555;">SATA SSD</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Faster, silent</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Limited capacity, higher cost per TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Balanced performance/capacity</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; font-weight: 700; border: 1px solid black;">NVMe SSD</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Compact, silent, highest speed</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Limited capacity, higher cost per TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">High-speed apps and NAS setups</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: center; border: 1px solid #555555;">NVMe SSD</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Compact, silent, highest speed</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Limited capacity, higher cost per TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">High-speed apps and NAS setups</td>
       </tr>
     </tbody>
   </table>
-      <p style="text-align: center;">HDD 3.5-inch SATA III Comparison Table</p>
+  <p style="text-align: center; color: #e0e0e0; font-weight: 600; margin-top: 20px;">HDD 3.5-inch SATA III Comparison Table</p>
 </div>
+
 
 Here’s a quick comparison of the products I found and their approximate prices at the time I searched:
 
-<div style="width: 100%; margin: 20px auto; padding: 20px; border-radius: 8px;">
-  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: #c9c9c9; border: 1px solid black;">
+<div style="margin: 20px auto; line-height: 16px; padding: 0; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+  <table style="width: 100%; border-collapse: collapse; font-family: 'Courier New', monospace; background-color: #333333; border: 1px solid #444444; border-radius: 8px;">
     <colgroup>
       <col style="width: 20%;">
       <col style="width: 20%;">
@@ -204,71 +205,73 @@ Here’s a quick comparison of the products I found and their approximate prices
       <col style="width: 20%;">
     </colgroup>
     <thead>
-      <tr style="background-color: #ffb300;">
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Model</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">RPM</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Transfer Rate (MB/s)</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Workloads (TB/Year)</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Price (€)</th>
+      <tr style="background-color: #444444; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: left; border: 1px solid #555555; border-radius: 8px 8px 0 0;">Model</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">RPM</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">Transfer Rate (MB/s)</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">Workloads (TB/Year)</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">Price (€)</th>
       </tr>
     </thead>
     <tbody>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">WD Red Plus 2TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">5400</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">98.00</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">WD Red Plus 2TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">5400</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">180</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">180</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">98.00</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">WD Red Plus 4TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">5400</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">185</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">130.00</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">WD Red Plus 4TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">5400</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">185</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">180</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">130.00</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Seagate IronWolf 2TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">5900</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">90.00</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Seagate IronWolf 2TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">5900</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">180</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">180</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">90.00</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Seagate IronWolf 4TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">5900</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">124.00</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Seagate IronWolf 4TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">5900</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">180</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">180</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">124.00</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Seagate IronWolf Pro 2TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">7200</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">195</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">300</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">116.00</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Seagate IronWolf Pro 2TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">7200</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">195</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">300</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">116.00</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Seagate IronWolf Pro 4TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">7200</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">214</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">300</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">140.00</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Seagate IronWolf Pro 4TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">7200</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">214</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">300</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">140.00</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Toshiba N300 4TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">7200</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">204</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">180</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">130.00</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Toshiba N300 4TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">7200</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">204</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">180</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">130.00</td>
       </tr>
     </tbody>
   </table>
-      <p style="text-align: center;">HDD 3.5-inch SATA III Comparison Table</p>
+  <p style="text-align: center; color: #e0e0e0; font-weight: 600; margin-top: 20px;">HDD 3.5-inch SATA III Comparison</p>
 </div>
 
-<div style="width: 100%; margin: 20px auto; padding: 20px; border-radius: 8px;">
-  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: #c9c9c9; border: 1px solid black;">
+
+
+<div style="margin: 20px auto; line-height: 16px; padding: 0; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+  <table style="width: 100%; border-collapse: collapse; font-family: 'Courier New', monospace; background-color: #333333; border: 1px solid #444444; border-radius: 8px;">
     <colgroup>
       <col style="width: 20%;">
       <col style="width: 20%;">
@@ -277,64 +280,59 @@ Here’s a quick comparison of the products I found and their approximate prices
       <col style="width: 20%;">
     </colgroup>
     <thead>
-      <tr style="background-color: #ffb300;">
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Model</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Seq Write Speed (MB/s)</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Seq Read Speed (MB/s)</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">TBW (TB)</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Price (€)</th>
+      <tr style="background-color: #444444; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: left; border: 1px solid #555555; border-radius: 8px 8px 0 0;">Model</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">Seq Write Speed (MB/s)</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">Seq Read Speed (MB/s)</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">TBW (TB)</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">Price (€)</th>
       </tr>
     </thead>
     <tbody>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">WD Red SATA SA500 1TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">530</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">560</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">600</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">110.79</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">WD Red SATA SA500 1TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">530</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">560</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">600</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">110.79</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">WD Red SATA SA500 2TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">530</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">560</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">1,300</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">59.17</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">WD Red SATA SA500 2TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">530</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">560</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">1,300</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">59.17</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Samsung 870 EVO 1TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">530</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">560</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">600</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">156.99</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Samsung 870 EVO 1TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">530</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">560</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">600</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">95.88</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Samsung 870 EVO 2TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">530</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">560</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">1,200</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">89.99</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Samsung 870 EVO 2TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">530</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">560</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">1,200</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">164.85</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Crucial MX500 1TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">510</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">560</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">360</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">101.99</td>
-      </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Crucial MX500 2TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">510</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">560</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">700</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">53.99</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Crucial MX500 1TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">560</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">560</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">700</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">88.95</td>
       </tr>
     </tbody>
   </table>
-    <p style="text-align: center;">SSD SATA III Comparison Table</p>
+  <p style="text-align: center; color: #e0e0e0; font-weight: 600; margin-top: 20px;">SSD SATA III Comparison</p>
 </div>
 
-<div style="width: 100%; margin: 20px auto; padding: 20px; border-radius: 8px;">
-  <table style="width: 100%; border-collapse: collapse; font-family: Roboto, Arial, sans-serif; background-color: #c9c9c9; border: 1px solid black;">
+
+
+<div style="margin: 20px auto; line-height: 16px; padding: 0; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+  <table style="width: 100%; border-collapse: collapse; font-family: 'Courier New', monospace; background-color: #333333; border: 1px solid #444444; border-radius: 8px;">
     <colgroup>
       <col style="width: 20%;">
       <col style="width: 20%;">
@@ -343,77 +341,49 @@ Here’s a quick comparison of the products I found and their approximate prices
       <col style="width: 20%;">
     </colgroup>
     <thead>
-      <tr style="background-color: #ffb300;">
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Model</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Seq Write Speed (MB/s)</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Seq Read Speed (MB/s)</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">TBW (TB)</th>
-        <th style="padding: 12px; color: #333333; font-weight: 700; text-align: center; border: 1px solid black;">Price (€)</th>
+      <tr style="background-color: #444444; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: left; border: 1px solid #555555; border-radius: 8px 8px 0 0;">Model</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">Seq Write Speed (MB/s)</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">Seq Read Speed (MB/s)</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">TBW (TB)</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">Price (€)</th>
       </tr>
     </thead>
     <tbody>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Crucial P3 2TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3000</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3500</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">440</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">110.79</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">WD_BLACK SN850 1TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">5300</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">7000</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">600</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">148.99</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Crucial P3 1TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3000</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3500</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">220</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">59.17</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Samsung 970 EVO Plus 1TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">3500</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">3500</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">600</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">123.39</td>
       </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">WD Red SN700 2TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">2900</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3430</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3000</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">156,99</td>
-      </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">WD Red SN700 1TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3000</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3400</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">2500</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">89,99</td>
-      </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Fikwot FN501 Pro 2TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3150</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3500</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">1280</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">64</td>
-      </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Fikwot FN501 Pro 1TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3150</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3500</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">640</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">38</td>
-      </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Ediloca EN600 Pro 2TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3000</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3500</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">1280</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">64</td>
-      </tr>
-      <tr style="color: black;">
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">Ediloca EN600 Pro 1TB</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3000</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">3500</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">640</td>
-        <td style="padding: 12px; text-align: center; border: 1px solid black;">38</td>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Crucial P5 1TB</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">3400</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">3400</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">600</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">92.99</td>
       </tr>
     </tbody>
   </table>
-  <p style="text-align: center;">SSD NVMe Gen 3 Comparison Table</p>
+  <p style="text-align: center; color: #e0e0e0; font-weight: 600; margin-top: 20px;">SSD NVMe M.2 Comparison</p>
 </div>
 
-The **TBW (Terabytes Written)** metric is a critical factor in assessing the durability of SSDs. It indicates the maximum amount of data a drive can write over its lifetime, as declared by the vendor. 
+<style> 
+    /* Add hover effect */ 
+    tr:hover { 
+        background-color: #555555; 
+    }
+</style>
+
+The **TBW (Terabytes Written)** metric is a critical factor in assessing the durability of SSDs. It indicates the maximum amount of data a drive can write over its lifetime, as declared by the vendor.
 
 ## **The Final Decision**
 
@@ -444,8 +414,8 @@ In my configuration, the NVMe SSDs are connected through a single **PCIe 3.0 x4*
 After purchasing all the necessary components, it's time for a bit of hands-on work to assemble everything. The process is quite simple, and in the following video, you'll see a summary of the assembly phase.
 
 <div style="text-align: center; margin: 20px 0; padding: 10px;">
-<video width="500" height="500" controls autoplay loop muted poster="minipc_poster.jpg"> 
-<source src="/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/assembling.mp4" type="video/mp4"> Your browser does not support the video tag. 
+<video width="500" height="500" controls autoplay loop muted poster="minipc_poster.jpg">
+<source src="/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/assembling.mp4" type="video/mp4"> Your browser does not support the video tag.
 </video>
   <p style="color: #f7f7c1; margin-top: 15px; font-style: italic; text-align: center;">Assembling the Pieces</p>
 </div>
@@ -455,5 +425,5 @@ After purchasing all the necessary components, it's time for a bit of hands-on w
 
 In this blog post, we've explored the **first phase** of planning our self-hosting environment, focusing on **hardware selection**. We discussed the reasoning behind our device choices and learned that the best way to start is by **understanding and defining your goals** and **limitations**. Remember, the perfect setup is the one that works for **you**. In the next post, we'll look at how to design the **physical** and **logical architecture** of our solution.
 
-**Stay tuned! 🚀** 
+**Stay tuned! 🚀**
 
