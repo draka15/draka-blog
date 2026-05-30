@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="In this post, we build the identity backbone of our homelab by installing freeIPA as a centralized directory service and wiring it up with authentik for Single Sign-On across all our applications.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO">
+<meta property="og:url" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/">
+<meta property="og:site_name" content="The Draka Blog">
+<meta property="og:description" content="In this post, we build the identity backbone of our homelab by installing freeIPA as a centralized directory service and wiring it up with authentik for Single Sign-On across all our applications.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/freeipa_diagram_schema.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/openwrt_dns_forward.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/freeIPAhome.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/creating_account_1.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/creating_account_2.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/auth_init.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/first_screen.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/svc_authentik_1.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/svc_authentik_2.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/federation_and_social.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/ldap_source.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/auth_freeipa_1.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/auth_freeipa_2.png">
+<meta property="article:published_time" content="2025-11-20T08:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-30T10:52:29.532Z">
+<meta property="article:author" content="Luca Santini">
+<meta property="article:tag" content="SysAdmin">
+<meta property="article:tag" content="Identity">
+<meta property="article:tag" content="freeIPA">
+<meta property="article:tag" content="LDAP">
+<meta property="article:tag" content="Kerberos">
+<meta property="article:tag" content="SSO">
+<meta property="article:tag" content="OIDC">
+<meta property="article:tag" content="authentik">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/freeipa_diagram_schema.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+    <script async defer
+            data-website-id="0a216adb-458c-44ec-a2ee-9cc08c2e9b45"
+            src="https://analytics.draka.me/script.js">
+    </script>
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="The Draka Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss.xml" title="The Draka Blog" type="application/rss+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Self-Hosting-Journey-Part-7-Securing-Data-with-Automated-Backup-Plan/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&text=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&title=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&is_video=false&description=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO&body=Check out this article: https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&title=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&title=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&title=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&title=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&name=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&t=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Architecture"><span class="toc-number">1.</span> <span class="toc-text">The Architecture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-1-Creating-the-IAM-Virtual-Machine"><span class="toc-number">2.</span> <span class="toc-text">Step 1: Creating the IAM Virtual Machine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-2-Installing-freeIPA"><span class="toc-number">3.</span> <span class="toc-text">Step 2: Installing freeIPA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-3-Configuring-DNS"><span class="toc-number">4.</span> <span class="toc-text">Step 3: Configuring DNS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-4-Creating-the-First-User-Account"><span class="toc-number">5.</span> <span class="toc-text">Step 4: Creating the First User Account</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-5-Preparing-the-Host-for-authentik"><span class="toc-number">6.</span> <span class="toc-text">Step 5: Preparing the Host for authentik</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Installing-Docker"><span class="toc-number">6.1.</span> <span class="toc-text">Installing Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Backing-Up-to-the-NAS-with-rsync"><span class="toc-number">6.2.</span> <span class="toc-text">Backing Up to the NAS with rsync</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-6-Installing-authentik"><span class="toc-number">7.</span> <span class="toc-text">Step 6: Installing authentik</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-7-Connecting-freeIPA-to-authentik"><span class="toc-number">8.</span> <span class="toc-text">Step 7: Connecting freeIPA to authentik</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Creating-a-Service-Account-in-freeIPA"><span class="toc-number">8.1.</span> <span class="toc-text">Creating a Service Account in freeIPA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuring-the-LDAP-Source-in-authentik"><span class="toc-number">8.2.</span> <span class="toc-text">Configuring the LDAP Source in authentik</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion-Your-Homelab%E2%80%99s-Master-Key-System"><span class="toc-number">9.</span> <span class="toc-text">Conclusion: Your Homelab’s Master Key System</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Draka</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-11-20T08:00:00.000Z" class="dt-published" itemprop="datePublished">2025-11-20</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Self-Hosting/">Self-Hosting</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Docker/" rel="tag">Docker</a>, <a class="p-category" href="/tags/Identity/" rel="tag">Identity</a>, <a class="p-category" href="/tags/Kerberos/" rel="tag">Kerberos</a>, <a class="p-category" href="/tags/LDAP/" rel="tag">LDAP</a>, <a class="p-category" href="/tags/OIDC/" rel="tag">OIDC</a>, <a class="p-category" href="/tags/SSO/" rel="tag">SSO</a>, <a class="p-category" href="/tags/Security/" rel="tag">Security</a>, <a class="p-category" href="/tags/SysAdmin/" rel="tag">SysAdmin</a>, <a class="p-category" href="/tags/authentik/" rel="tag">authentik</a>, <a class="p-category" href="/tags/freeIPA/" rel="tag">freeIPA</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Hello and welcome back! In our last two posts, we built and fortified our data vault: a resilient ZFS NAS backed by a multi-layered automated backup plan. Our storage infrastructure is rock-solid, and now that the networking and storage are humming along, it’s finally time to deploy our applications… except no, not yet. There’s one last critical piece of the puzzle before we start deploying anything: <strong>Identity Management</strong>.</p>
+<p>Think of it this way. Imagine your homelab is a building with many rooms. Without a proper key system, every room has its own incompatible lock, its own password on a sticky note, and its own drawer full of “forgot my password” headaches. Identity management gives every resident a single master key that opens exactly the doors they’re allowed through, and nothing else.</p>
+<p>In this post, we’ll build exactly that system using two tools that work in tandem:</p>
+<ul>
+<li><strong>FreeIPA</strong>: Our centralized identity store. It will be the single source of truth for all users, groups, and hosts in our network. Think of it as the open-source, Linux-native alternative to Microsoft Active Directory.</li>
+<li><strong>authentik</strong>: Our Single Sign-On (SSO) gateway. It sits in front of our applications, reads users from freeIPA, and speaks modern authentication protocols (OIDC and SAML) so users can log in once and access everything.</li>
+</ul>
+<p>Let’s get to it.</p>
+<h2 id="The-Architecture"><a href="#The-Architecture" class="headerlink" title="The Architecture"></a>The Architecture</h2><p>Before diving in, let’s quickly map out what we’re building.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/freeipa_diagram_schema.png" alt="freeipa diagram" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<p>The flow is straightforward:</p>
+<ol>
+<li>A user tries to access an application in the homelab.</li>
+<li>The application redirects them to the <strong>authentik</strong> login portal.</li>
+<li>authentik verifies the credentials against <strong>freeIPA</strong> over LDAP.</li>
+<li>On success, the user receives a token and is sent back to the application, fully authenticated.</li>
+</ol>
+<p>Both services will run on a dedicated VM called <code>iam.home.local</code> (<code>10.0.20.3</code>), sitting in the management VLAN we designed back in <a target="_blank" rel="noopener" href="https://blog.draka.me/Self-Hosting-Journey-Part-3-Planning-the-Infrastructure/">Part 3</a>.</p>
+<h2 id="Step-1-Creating-the-IAM-Virtual-Machine"><a href="#Step-1-Creating-the-IAM-Virtual-Machine" class="headerlink" title="Step 1: Creating the IAM Virtual Machine"></a>Step 1: Creating the IAM Virtual Machine</h2><p>Using the cloud-init template we prepared in <a target="_blank" rel="noopener" href="https://blog.draka.me/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/">Part 4</a>, spin up a new Fedora-based VM. FreeIPA has first-class support on Fedora and RHEL-family systems, so this is the right choice here.</p>
+<p>Once the VM is up, the first essential task is to set its hostname correctly. FreeIPA is remarkably particular about hostname and DNS resolution — a misconfigured hosts file will cause the installer to bail out with a cryptic error.</p>
+<p>For a <strong>cloud-init image</strong>, edit the cloud-init hosts template:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/cloud/templates/hosts.redhat.tmpl</span><br></pre></td></tr></table></figure>
+
+<p>For a <strong>standard image</strong>, edit <code>/etc/hosts</code> directly:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/hosts</span><br></pre></td></tr></table></figure>
+
+<p>Either way, the file should look like this:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">10.0.20.3 iam.home.local iam</span><br><span class="line">127.0.0.1 localhost.localdomain localhost</span><br><span class="line">127.0.0.1 localhost4.localdomain4 localhost4</span><br><span class="line"></span><br><span class="line"># The following lines are desirable for IPv6 capable hosts</span><br><span class="line">::1 localhost.localdomain localhost</span><br><span class="line">::1 localhost6.localdomain6 localhost6</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>⚠️ The FQDN line (<code>iam.home.local</code>) <strong>must come before</strong> the localhost entries. The freeIPA installer uses it to auto-detect the server’s hostname and domain during setup.</p>
+</blockquote>
+<h2 id="Step-2-Installing-freeIPA"><a href="#Step-2-Installing-freeIPA" class="headerlink" title="Step 2: Installing freeIPA"></a>Step 2: Installing freeIPA</h2><p>With the hostname sorted, installing freeIPA is surprisingly painless:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dnf update -y</span><br><span class="line"><span class="built_in">sudo</span> dnf install -y freeipa-server freeipa-server-dns</span><br></pre></td></tr></table></figure>
+
+<p>Now run the interactive installer:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> ipa-server-install</span><br></pre></td></tr></table></figure>
+
+<p>The installer walks you through a series of prompts. The key choices are:</p>
+<ul>
+<li><strong>Configure integrated DNS?</strong> → <code>Yes</code> — We want freeIPA to manage DNS for our <code>home.local</code> domain.</li>
+<li><strong>Configure a NTP&#x2F;Chrony server pool?</strong> → <code>No</code> — Time synchronization is already handled by our network.</li>
+<li><strong>DNS forwarder</strong> → <code>10.0.20.1</code> — This is our AdGuard Home instance from <a target="_blank" rel="noopener" href="https://blog.draka.me/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/">Part 5</a>. Pointing freeIPA’s forwarder here ensures the IAM server can resolve both local and external domains.</li>
+</ul>
+<p>After installation completes (grab a coffee, it takes a few minutes), if you have firewalld configured and enabled, open the firewall rules to the services freeIPA needs:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> firewall-cmd --add-service=kerberos --add-service=ntp --add-service=http --add-service=https --add-service=freeipa-ldap --add-service=freeipa-ldaps --permanent</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> firewall-cmd --reload</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> firewall-cmd --list-all</span><br></pre></td></tr></table></figure>
+
+<p>FreeIPA uses Kerberos for authentication, LDAP for the directory, and HTTP&#x2F;HTTPS for the web UI. These rules open all the ports required for those services to function.</p>
+<h2 id="Step-3-Configuring-DNS"><a href="#Step-3-Configuring-DNS" class="headerlink" title="Step 3: Configuring DNS"></a>Step 3: Configuring DNS</h2><p>For the rest of the network to reach freeIPA by name, we need to tell our OpenWRT router to forward DNS queries for <code>home.local</code> to the new IAM server.</p>
+<p>First, let’s check what DNS records freeIPA registered for itself:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipa dns-update-system-records --dry-run</span><br></pre></td></tr></table></figure>
+
+<p>Then, in the <strong>OpenWRT LuCI interface</strong> (or via the <code>uci</code> CLI), add a DNS forwarding rule to forward all <code>home.local</code> queries to <code>10.0.20.3</code>. This ensures every machine on the network can resolve <code>iam.home.local</code> and the Kerberos service records that freeIPA publishes.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/openwrt_dns_forward.png" alt="openwrt dns forwarding rule" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<h2 id="Step-4-Creating-the-First-User-Account"><a href="#Step-4-Creating-the-First-User-Account" class="headerlink" title="Step 4: Creating the First User Account"></a>Step 4: Creating the First User Account</h2><p>With freeIPA running and DNS configured, head to the web UI at <code>https://iam.home.local</code>.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/freeIPAhome.png" alt="freeIPA web interface" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Log in with the administrator credentials you set during installation. Navigate to <strong>Identity &gt; Active Users</strong> and click <strong>Add</strong> to create your first personal user account.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/creating_account_1.png" alt="freeIPA user management screen" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Fill in the form and click <strong>Add</strong>. From this point on, every new user in your homelab gets created here once, in one place.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/creating_account_2.png" alt="freeIPA add user form" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<h2 id="Step-5-Preparing-the-Host-for-authentik"><a href="#Step-5-Preparing-the-Host-for-authentik" class="headerlink" title="Step 5: Preparing the Host for authentik"></a>Step 5: Preparing the Host for authentik</h2><p>authentik is a Docker-first application, so we need Docker running on the <code>iam</code> VM. We’ll also make sure authentik’s data is backed up to the NAS using the same rsync-over-SSH approach we set up for the other machines in <a target="_blank" rel="noopener" href="https://blog.draka.me/Self-Hosting-Journey-Part-7-Securing-Data-with-Automated-Backup-Plan/">Part 7</a>.</p>
+<h3 id="Installing-Docker"><a href="#Installing-Docker" class="headerlink" title="Installing Docker"></a>Installing Docker</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> dnf -y install dnf-plugins-core</span><br><span class="line"><span class="built_in">sudo</span> dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> usermod -aG docker user</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> --now docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="Backing-Up-to-the-NAS-with-rsync"><a href="#Backing-Up-to-the-NAS-with-rsync" class="headerlink" title="Backing Up to the NAS with rsync"></a>Backing Up to the NAS with rsync</h3><p>Following the same pattern established in Part 7, we’ll configure a cron job on the <code>iam</code> VM to rsync its entire home folder, including the authentik Docker Compose file and all configuration data, to the NAS every night.</p>
+<p>Set up SSH key authentication between <code>iam</code> and the NAS, then harden the NAS’s <code>authorized_keys</code> entry to restrict that key to the specific rsync command (as covered in Part 7). Finally, add the cron job:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> crontab -e</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0 0 * * * rsync -avz --delete /home/user/ root@10.0.20.2:/ssd/docker/iam</span><br></pre></td></tr></table></figure>
+
+<p>That’s it. No extra credentials file, no mount point to manage. The backup just runs nightly alongside every other machine in the homelab.</p>
+<h2 id="Step-6-Installing-authentik"><a href="#Step-6-Installing-authentik" class="headerlink" title="Step 6: Installing authentik"></a>Step 6: Installing authentik</h2><p>With Docker up and the backup in place, deploying authentik takes all of three commands:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/user/identity/authentik</span><br><span class="line">wget https://goauthentik.io/docker-compose.yml</span><br><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
+
+<p>Wait a minute for the containers to initialize, then open the first-run setup page:</p>
+<p><code>http://iam.home.local:9000/if/flow/initial-setup/</code></p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/auth_init.png" alt="authentik initial setup page" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Create your admin account and you’ll land on authentik’s main dashboard.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/first_screen.png" alt="authentik main dashboard" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<h2 id="Step-7-Connecting-freeIPA-to-authentik"><a href="#Step-7-Connecting-freeIPA-to-authentik" class="headerlink" title="Step 7: Connecting freeIPA to authentik"></a>Step 7: Connecting freeIPA to authentik</h2><p>This is the step where the two systems shake hands. We’ll configure authentik to use freeIPA as its LDAP backend, so all users and groups from freeIPA automatically sync into authentik.</p>
+<h3 id="Creating-a-Service-Account-in-freeIPA"><a href="#Creating-a-Service-Account-in-freeIPA" class="headerlink" title="Creating a Service Account in freeIPA"></a>Creating a Service Account in freeIPA</h3><p>authentik needs a dedicated read&#x2F;write service account to query the LDAP directory. Head back to the freeIPA web UI and create a new user called <code>svc_authentik</code>. Generate a strong password for it:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl rand 36 | <span class="built_in">base64</span> -w 0</span><br></pre></td></tr></table></figure>
+
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/svc_authentik_1.png" alt="Creating the svc_authentik service account" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Next, assign the <code>User Administrators</code> role to this account. Open the user’s detail page, go to the <strong>Roles</strong> tab, and add <code>User Administrators</code>. This permission lets authentik handle password resets on behalf of users.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/svc_authentik_2.png" alt="Assigning the User Administrators role" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<blockquote>
+<p><strong>One quirk worth knowing:</strong> By default, when a freeIPA administrator resets a user’s password, freeIPA forces that user to change it on the very next login — a good corporate policy, but a friction-filled experience when authentik is doing the reset behind the scenes. To bypass this behavior specifically for <code>svc_authentik</code>, run:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldapmodify -Y GSSAPI -D <span class="string">&quot;cn=Directory Manager&quot;</span> -W -H ldap://iam.home.local:389</span><br></pre></td></tr></table></figure>
+
+<p>Then paste the following LDIF and press <code>Ctrl+D</code>:</p>
+<figure class="highlight ldif"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">dn</span>: cn=ipa_pwd_extop,cn=plugins,cn=config</span><br><span class="line"><span class="attribute">changetype</span>: modify</span><br><span class="line"><span class="attribute">add</span>: passSyncManagersDNs</span><br><span class="line"><span class="attribute">passSyncManagersDNs</span>: uid=svc_authentik,cn=users,cn=accounts,dc=home,dc=local</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="Configuring-the-LDAP-Source-in-authentik"><a href="#Configuring-the-LDAP-Source-in-authentik" class="headerlink" title="Configuring the LDAP Source in authentik"></a>Configuring the LDAP Source in authentik</h3><p>Switch to the authentik admin interface (if you’re on the user-facing portal, click the gear icon in the top right). Navigate to <strong>Directory &gt; Federation and Social Login</strong> and click <strong>Create</strong>.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/federation_and_social.png" alt="authentik Federation and Social Login menu" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Select <strong>LDAP Source</strong> as the source type.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/ldap_source.png" alt="Selecting LDAP source type in authentik" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Fill in the connection details:</p>
+<div style="margin: 20px auto; line-height: 16px; padding: 0; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+  <table style="width: 100%; border-collapse: collapse; font-family: 'Courier New', monospace; background-color: #333333; border: 1px solid #444444; border-radius: 8px;">
+    <colgroup>
+      <col style="width: 40%;">
+      <col style="width: 60%;">
+    </colgroup>
+    <thead>
+      <tr style="background-color: #444444;">
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: left; border: 1px solid #555555;">Setting</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: left; border: 1px solid #555555;">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="color: #e0e0e0;">
+        <td style="padding: 14px 20px; border: 1px solid #555555;">Name</td>
+        <td style="padding: 14px 20px; border: 1px solid #555555;">freeIPA</td>
+      </tr>
+      <tr style="color: #e0e0e0;">
+        <td style="padding: 14px 20px; border: 1px solid #555555;">Server URI</td>
+        <td style="padding: 14px 20px; border: 1px solid #555555;">ldaps://iam.home.local</td>
+      </tr>
+      <tr style="color: #e0e0e0;">
+        <td style="padding: 14px 20px; border: 1px solid #555555;">Bind CN</td>
+        <td style="padding: 14px 20px; border: 1px solid #555555;">uid=svc_authentik,cn=users,cn=accounts,dc=home,dc=local</td>
+      </tr>
+      <tr style="color: #e0e0e0;">
+        <td style="padding: 14px 20px; border: 1px solid #555555;">Bind Password</td>
+        <td style="padding: 14px 20px; border: 1px solid #555555;"><em>the password generated above</em></td>
+      </tr>
+      <tr style="color: #e0e0e0;">
+        <td style="padding: 14px 20px; border: 1px solid #555555;">Base DN</td>
+        <td style="padding: 14px 20px; border: 1px solid #555555;">dc=home,dc=local</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="text-align: center; color: #e0e0e0; font-weight: 600; margin-top: 20px;">LDAP Source — Connection Settings</p>
+</div>
+
+<p>For <strong>User Property Mappings</strong>, hold <code>Ctrl</code> and select all entries beginning with <code>&quot;authentik default LDAP&quot;</code> and <code>&quot;authentik default OpenLDAP&quot;</code>. For <strong>Group Property Mappings</strong>, select <code>&quot;authentik default OpenLDAP Mapping: cn&quot;</code>.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/auth_freeipa_1.png" alt="authentik LDAP source - property mappings" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Scroll down to the advanced settings and configure the LDAP subtrees to point authentik at the right locations within the freeIPA directory:</p>
+<div style="margin: 20px auto; line-height: 16px; padding: 0; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+  <table style="width: 100%; border-collapse: collapse; font-family: 'Courier New', monospace; background-color: #333333; border: 1px solid #444444; border-radius: 8px;">
+    <colgroup>
+      <col style="width: 40%;">
+      <col style="width: 60%;">
+    </colgroup>
+    <thead>
+      <tr style="background-color: #444444;">
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: left; border: 1px solid #555555;">Setting</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: left; border: 1px solid #555555;">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="color: #e0e0e0;">
+        <td style="padding: 14px 20px; border: 1px solid #555555;">Additional User DN</td>
+        <td style="padding: 14px 20px; border: 1px solid #555555;">cn=users,cn=accounts</td>
+      </tr>
+      <tr style="color: #e0e0e0;">
+        <td style="padding: 14px 20px; border: 1px solid #555555;">Additional Group DN</td>
+        <td style="padding: 14px 20px; border: 1px solid #555555;">cn=groups,cn=accounts</td>
+      </tr>
+      <tr style="color: #e0e0e0;">
+        <td style="padding: 14px 20px; border: 1px solid #555555;">User Object Filter</td>
+        <td style="padding: 14px 20px; border: 1px solid #555555;">(objectClass=person)</td>
+      </tr>
+      <tr style="color: #e0e0e0;">
+        <td style="padding: 14px 20px; border: 1px solid #555555;">Group Object Filter</td>
+        <td style="padding: 14px 20px; border: 1px solid #555555;">(objectClass=groupofnames)</td>
+      </tr>
+      <tr style="color: #e0e0e0;">
+        <td style="padding: 14px 20px; border: 1px solid #555555;">Group Membership Field</td>
+        <td style="padding: 14px 20px; border: 1px solid #555555;">member</td>
+      </tr>
+      <tr style="color: #e0e0e0;">
+        <td style="padding: 14px 20px; border: 1px solid #555555;">Object Uniqueness Field</td>
+        <td style="padding: 14px 20px; border: 1px solid #555555;">ipaUniqueID</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="text-align: center; color: #e0e0e0; font-weight: 600; margin-top: 20px;">LDAP Source — Advanced Settings</p>
+</div>
+
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/auth_freeipa_2.png" alt="authentik LDAP source - advanced settings" style="max-width: 100%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Save the source. authentik will begin synchronizing users and groups from freeIPA in the background. You can trigger a manual sync from the source’s detail page to verify the integration is working. Your freeIPA users should appear in <strong>Directory &gt; Users</strong> within seconds.</p>
+<h2 id="Conclusion-Your-Homelab’s-Master-Key-System"><a href="#Conclusion-Your-Homelab’s-Master-Key-System" class="headerlink" title="Conclusion: Your Homelab’s Master Key System"></a>Conclusion: Your Homelab’s Master Key System</h2><p>We now have a fully operational identity backbone. FreeIPA is the single source of truth for all user accounts, and authentik is the SSO layer that our applications will use to authenticate against it.</p>
+<p>No more per-application user databases. No more “what was the password for that thing again?”. One identity, one login, everywhere.</p>
+<p>The foundation of our homelab is now genuinely complete:</p>
+<ul>
+<li>A hypervisor (<strong>Proxmox</strong>) to run everything</li>
+<li>A secure, segmented network (<strong>OpenWRT</strong>)</li>
+<li>A resilient data store (<strong>ZFS NAS</strong>) with automated backups</li>
+<li>A centralized identity and access management system (<strong>freeIPA + authentik</strong>)</li>
+</ul>
+<p>In the next post, we’ll finally start deploying the actual user-facing applications — and we’ll see first-hand how having a proper SSO system in place makes the whole thing dramatically cleaner.</p>
+<p><strong>Stay tuned! 🚀</strong></p>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#The-Architecture"><span class="toc-number">1.</span> <span class="toc-text">The Architecture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-1-Creating-the-IAM-Virtual-Machine"><span class="toc-number">2.</span> <span class="toc-text">Step 1: Creating the IAM Virtual Machine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-2-Installing-freeIPA"><span class="toc-number">3.</span> <span class="toc-text">Step 2: Installing freeIPA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-3-Configuring-DNS"><span class="toc-number">4.</span> <span class="toc-text">Step 3: Configuring DNS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-4-Creating-the-First-User-Account"><span class="toc-number">5.</span> <span class="toc-text">Step 4: Creating the First User Account</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-5-Preparing-the-Host-for-authentik"><span class="toc-number">6.</span> <span class="toc-text">Step 5: Preparing the Host for authentik</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Installing-Docker"><span class="toc-number">6.1.</span> <span class="toc-text">Installing Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Backing-Up-to-the-NAS-with-rsync"><span class="toc-number">6.2.</span> <span class="toc-text">Backing Up to the NAS with rsync</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-6-Installing-authentik"><span class="toc-number">7.</span> <span class="toc-text">Step 6: Installing authentik</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-7-Connecting-freeIPA-to-authentik"><span class="toc-number">8.</span> <span class="toc-text">Step 7: Connecting freeIPA to authentik</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Creating-a-Service-Account-in-freeIPA"><span class="toc-number">8.1.</span> <span class="toc-text">Creating a Service Account in freeIPA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuring-the-LDAP-Source-in-authentik"><span class="toc-number">8.2.</span> <span class="toc-text">Configuring the LDAP Source in authentik</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion-Your-Homelab%E2%80%99s-Master-Key-System"><span class="toc-number">9.</span> <span class="toc-text">Conclusion: Your Homelab’s Master Key System</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&text=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&title=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&is_video=false&description=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO&body=Check out this article: https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&title=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&title=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&title=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&title=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&name=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://draka15.github.io/Self-Hosting-Journey-Part-8-Managing-Identities-with-freeIPA-and-SSO/&t=Self-Hosting Journey - Part 8 - Managing Identities with freeIPA and SSO"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    Luca Santini
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+<link rel="stylesheet" href="/css/asciinema-player.css">
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'draka15/draka-blog';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'gruvbox-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+<script src="/js/asciinema-player.min.js"></script>
+
+</body>
+</html>

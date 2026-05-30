@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Kicking off my self-hosting journey! Learn what self-hosting is, why it matters, and how I&#39;m building a secure, private, and cost-effective home server setup from scratch.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Self-Hosting Journey - Part 1 - From Zero">
+<meta property="og:url" content="https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/">
+<meta property="og:site_name" content="The Draka Blog">
+<meta property="og:description" content="Kicking off my self-hosting journey! Learn what self-hosting is, why it matters, and how I&#39;m building a secure, private, and cost-effective home server setup from scratch.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/self_hosting_1.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/self_hosting_2.png">
+<meta property="article:published_time" content="2024-12-22T14:18:35.000Z">
+<meta property="article:modified_time" content="2025-11-24T10:08:50.000Z">
+<meta property="article:author" content="Luca Santini">
+<meta property="article:tag" content="Cybersecurity">
+<meta property="article:tag" content="Privacy">
+<meta property="article:tag" content="Guide">
+<meta property="article:tag" content="Tutorial">
+<meta property="article:tag" content="Tech">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/self_hosting_1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Self-Hosting Journey - Part 1 - From Zero</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+    <script async defer
+            data-website-id="0a216adb-458c-44ec-a2ee-9cc08c2e9b45"
+            src="https://analytics.draka.me/script.js">
+    </script>
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="The Draka Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss.xml" title="The Draka Blog" type="application/rss+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/Self-Hosting-Journey-Part-2-Choosing-the-Hardware/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&text=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&title=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&is_video=false&description=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Self-Hosting Journey - Part 1 - From Zero&body=Check out this article: https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&title=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&title=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&title=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&title=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&name=Self-Hosting Journey - Part 1 - From Zero&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&t=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-Self-Hosting"><span class="toc-number">1.</span> <span class="toc-text">What is Self-Hosting?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-Start-Self-Hosting"><span class="toc-number">2.</span> <span class="toc-text">Why Start Self-Hosting?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Privacy-and-Security"><span class="toc-number">2.1.</span> <span class="toc-text">Privacy and Security</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Real-World-Wake-Up-Call"><span class="toc-number">2.2.</span> <span class="toc-text">A Real-World Wake-Up Call</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-Self-Hosting-Use-Cases"><span class="toc-number">3.</span> <span class="toc-text">Common Self-Hosting Use Cases</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-you-Need-to-Get-Started"><span class="toc-number">4.</span> <span class="toc-text">What you Need to Get Started</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#My-Self-Hosting-Project"><span class="toc-number">5.</span> <span class="toc-text">My Self-Hosting Project</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">6.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Self-Hosting Journey - Part 1 - From Zero
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Draka</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-12-22T14:18:35.000Z" class="dt-published" itemprop="datePublished">2024-12-22</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Self-Hosting/">Self-Hosting</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Cybersecurity/" rel="tag">Cybersecurity</a>, <a class="p-category" href="/tags/Guide/" rel="tag">Guide</a>, <a class="p-category" href="/tags/Privacy/" rel="tag">Privacy</a>, <a class="p-category" href="/tags/Tech/" rel="tag">Tech</a>, <a class="p-category" href="/tags/Tutorial/" rel="tag">Tutorial</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Hi! In this series, I’m sharing my self-hosting project from the ground up. I’ll explain what self-hosting is, why I chose this path, and share my reasoning and decisions along the way. Let’s jump right in!</p>
+<h2 id="What-is-Self-Hosting"><a href="#What-is-Self-Hosting" class="headerlink" title="What is Self-Hosting?"></a>What is Self-Hosting?</h2><p>Self-hosting means running and managing your applications on your own hardware instead of relying on third-party cloud services. Many services you use daily, like Google Drive, Dropbox, Netflix, and Gmail, are cloud-based SaaS (Software-as-a-Service).</p>
+<p>Here are some popular SaaS examples:</p>
+<ul>
+<li>File storage &amp; sharing: Dropbox, Google Drive, iCloud, OneDrive</li>
+<li>Productivity suites: Google Workspace, Microsoft 365</li>
+<li>Email: Gmail, Outlook, Yahoo</li>
+<li>Streaming: Netflix, Spotify, Prime Video</li>
+</ul>
+<p>All of these have self-hosted alternatives you can run on your own device, be it a mini-PC, laptop, Raspberry Pi, or other hardware, giving you full control over your data and services.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-1-From-Zero/self_hosting_1.png" alt="On the left a datacenter, on the right a home environment" style="max-width: 70%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+  <p style="color: #f7f7c1; margin-top: 15px; font-style: italic; text-align: center;">Cloud vs Self-Hosting</p>
+</div>
+
+<h2 id="Why-Start-Self-Hosting"><a href="#Why-Start-Self-Hosting" class="headerlink" title="Why Start Self-Hosting?"></a>Why Start Self-Hosting?</h2><p>Here are some of the key benefits:</p>
+<ul>
+<li><strong>Privacy:</strong> Avoid sharing your data with third parties prevent sharing your data with external entities, helping to maintain your privacy. </li>
+<li><strong>Security:</strong> Control your infrastructure’s security, no blind trust in large providers.</li>
+<li><strong>Cost Savings:</strong> No recurring subscriptions, only electricity and hardware costs.</li>
+<li><strong>Customization:</strong> Tailor your setup exactly to your needs.</li>
+<li><strong>Learning:</strong> Dive deep into new technologies and tools.</li>
+<li><strong>Fun:</strong> This is subjective, but if you are passionate about computers and tech, it’s rewarding and enjoyable!</li>
+</ul>
+<p><strong>Keep in mind:</strong> Full control means full responsibility. You’ll handle backups, updates, hardware upkeep, and running your systems 24&#x2F;7.</p>
+<h3 id="Privacy-and-Security"><a href="#Privacy-and-Security" class="headerlink" title="Privacy and Security"></a>Privacy and Security</h3><p>Privacy is often the biggest motivator for self-hosting. But what <em>is</em> privacy? It’s about <strong>control</strong> over who sees your information, not about hiding secrets.<br>Think of privacy like closing the bathroom door, not because you have something to hide, but because you value personal space. Privacy is a fundamental human right linked to freedom.</p>
+<p>It’s important to distinguish:</p>
+<ul>
+<li><strong>Privacy:</strong> Control over your personal data.</li>
+<li><strong>Security:</strong> Protection based on Confidentiality, Integrity, and Availability (the CIA triad).</li>
+<li><strong>Anonymity:</strong> Acting without being linked to your real identity.</li>
+</ul>
+<p>Self-hosting doesn’t magically solve all privacy and security issues. The internet inherently involves trade-offs between security, privacy, and usability. But self-hosting empowers you to better manage that balance on your own terms.</p>
+<p>For a deeper dive into privacy topic, check out <a href="https://www.privacyguides.org/en/" title="" target="">Privacy Guides</a></p>
+<h3 id="A-Real-World-Wake-Up-Call"><a href="#A-Real-World-Wake-Up-Call" class="headerlink" title="A Real-World Wake-Up Call"></a>A Real-World Wake-Up Call</h3><p>Have you considered what happens if your cloud accounts get banned or suspended unfairly? A few months ago, my TikTok account was banned by an automatic algorithm for no valid reason. Luckily, after filing a claim, it was reinstated within a few months. I didn’t use the account much, so it wasn’t a big deal for me. But many people rely on these platforms for their work, like influencers, and a ban can seriously disrupt their lives.</p>
+<p>Unfortunately, not everyone is as lucky. Take Mark from San Francisco, for example. After sending a private photo of his son’s genitals to a doctor via Google services, an automatic system flagged it as illegal content. Mark was banned from all Google services, including phone and data through Google Fi, and faced a judicial investigation. Thankfully, he was eventually acquitted, but his story highlights the risks of relying on automated moderation for sensitive content.</p>
+<p>Read the full story: <a href="https://www.nytimes.com/2022/08/21/technology/google-surveillance-toddler-photo.html" title="" target="">New York Times Article</a></p>
+<h2 id="Common-Self-Hosting-Use-Cases"><a href="#Common-Self-Hosting-Use-Cases" class="headerlink" title="Common Self-Hosting Use Cases"></a>Common Self-Hosting Use Cases</h2><p>Self-hosting setups vary by need. Popular examples include:</p>
+<ol>
+<li><strong>Personal Website or Blog:</strong> WordPress, Ghost, Jekyll, Hugo</li>
+<li><strong>Private Cloud Storage:</strong> Nextcloud, OwnCloud</li>
+<li><strong>Media Streaming Server:</strong> Plex, Jellyfin</li>
+<li><strong>Email Server:</strong> Postfix, Dovecot, Mail-in-a-Box</li>
+<li><strong>Home Automation:</strong> Home Assistant, OpenHAB</li>
+</ol>
+<h2 id="What-you-Need-to-Get-Started"><a href="#What-you-Need-to-Get-Started" class="headerlink" title="What you Need to Get Started"></a>What you Need to Get Started</h2><p>Self-hosting can be simple or complex, depending on your goals. Most beginners don’t need expensive servers, here are common options:</p>
+<ul>
+<li><strong>Old PC or Laptop:</strong> Repurpose existing hardware.</li>
+<li><strong>Raspberry Pi:</strong> Low-power, affordable, and versatile.</li>
+<li><strong>Dedicated Server&#x2F;VPS:</strong> Possible but less recommended, as it shifts trust and costs to a cloud provider, let’s say that this is a <em>hybrid</em> solution.</li>
+</ul>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-1-From-Zero/self_hosting_2.png" alt="A router and a raspberry pi" style="max-width: 60%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+  <p style="color: #f7f7c1; margin-top: 15px; font-style: italic; text-align: center;">Self-Hosting Equipment</p>
+</div>
+
+<h2 id="My-Self-Hosting-Project"><a href="#My-Self-Hosting-Project" class="headerlink" title="My Self-Hosting Project"></a>My Self-Hosting Project</h2><p>In my self-hosting project, I have set several key goals that align with my professional growth. Below is an outline of what I aim to achieve:</p>
+<p><strong>1. Learn and Improve Skills</strong></p>
+<ul>
+<li>Set up a home network with an architecture similar to a small-to-medium-sized corporate.</li>
+<li>Configure key security systems: SIEM, IDS&#x2F;IPS, and firewall.</li>
+<li>Automate infrastructure deployment using Infrastructure as Code (IaaC) tools like Terraform and Ansible.</li>
+<li>Perform penetration tests to assess the security of the deployed infrastructure.</li>
+<li>Build a security training lab for hands-on learning and practice.</li>
+</ul>
+<p><strong>2. Enhance Security and Privacy</strong></p>
+<ul>
+<li>Transition from cloud services to self-hosted solutions where possible.</li>
+<li>Use privacy-oriented protocols (e.g., DNS over HTTPS, VPN) for home network traffic.</li>
+<li>Host a personal VPN to improve my security when connecting to public networks.</li>
+</ul>
+<p><strong>3. Save Money</strong></p>
+<ul>
+<li>Replace paid services with free self-hosted alternatives (e.g., file storage instead of Google Drive).</li>
+<li>Choose low-power, silent hardware to reduce energy costs and noise.</li>
+</ul>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>This series will be a practical guide, sharing everything from hardware benchmarks to software selection and security hardening. Whether you’re a complete beginner or have some experience, I hope you’ll find it valuable.</p>
+<p>The very first step in any build is choosing the right tools. In the next post, we’ll dive into one of the most critical decisions: <strong>selecting the hardware</strong> that will be the heart of my new self-hosted world.</p>
+<p><strong>Stay tuned!</strong> 👋✨</p>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-is-Self-Hosting"><span class="toc-number">1.</span> <span class="toc-text">What is Self-Hosting?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-Start-Self-Hosting"><span class="toc-number">2.</span> <span class="toc-text">Why Start Self-Hosting?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Privacy-and-Security"><span class="toc-number">2.1.</span> <span class="toc-text">Privacy and Security</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#A-Real-World-Wake-Up-Call"><span class="toc-number">2.2.</span> <span class="toc-text">A Real-World Wake-Up Call</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-Self-Hosting-Use-Cases"><span class="toc-number">3.</span> <span class="toc-text">Common Self-Hosting Use Cases</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#What-you-Need-to-Get-Started"><span class="toc-number">4.</span> <span class="toc-text">What you Need to Get Started</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#My-Self-Hosting-Project"><span class="toc-number">5.</span> <span class="toc-text">My Self-Hosting Project</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">6.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&text=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&title=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&is_video=false&description=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Self-Hosting Journey - Part 1 - From Zero&body=Check out this article: https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&title=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&title=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&title=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&title=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&name=Self-Hosting Journey - Part 1 - From Zero&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://draka15.github.io/Self-Hosting-Journey-Part-1-From-Zero/&t=Self-Hosting Journey - Part 1 - From Zero"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    Luca Santini
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+<link rel="stylesheet" href="/css/asciinema-player.css">
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'draka15/draka-blog';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'gruvbox-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+<script src="/js/asciinema-player.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="In this post, I walk through installing Proxmox VE, setting up filesystems, configuring networks, and building cloud-init VM templates, laying a rock-solid foundation for virtualization and self-hosti">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox">
+<meta property="og:url" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/">
+<meta property="og:site_name" content="The Draka Blog">
+<meta property="og:description" content="In this post, I walk through installing Proxmox VE, setting up filesystems, configuring networks, and building cloud-init VM templates, laying a rock-solid foundation for virtualization and self-hosti">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/proxmox_login.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/proxmox_final_repo.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vmbr1_creation.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/network_final.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/debian_download.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/debian_sha512.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/download_completed.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_1.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_2.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_3.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_4.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_5.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_6.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_7.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_8.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/remove_disk.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/removed_disk.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/add_cloudinit.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/convert_template.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/cloud_init_settings.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/my_debian_vm.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/debian_cloudimage.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/fedora_cloudimage.png">
+<meta property="article:published_time" content="2025-06-27T07:52:18.000Z">
+<meta property="article:modified_time" content="2025-11-24T10:08:52.000Z">
+<meta property="article:author" content="Luca Santini">
+<meta property="article:tag" content="Infrastructure">
+<meta property="article:tag" content="CloudInit">
+<meta property="article:tag" content="Proxmox">
+<meta property="article:tag" content="Virtualization">
+<meta property="article:tag" content="Template">
+<meta property="article:tag" content="SysAdmin">
+<meta property="article:tag" content="Networking">
+<meta property="article:tag" content="Filesystem">
+<meta property="article:tag" content="ZFS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/proxmox_login.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+    <script async defer
+            data-website-id="0a216adb-458c-44ec-a2ee-9cc08c2e9b45"
+            src="https://analytics.draka.me/script.js">
+    </script>
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="The Draka Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss.xml" title="The Draka Blog" type="application/rss+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Self-Hosting-Journey-Part-3-Planning-the-Infrastructure/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&text=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&title=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&is_video=false&description=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox&body=Check out this article: https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&title=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&title=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&title=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&title=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&name=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&t=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-1-Preparing-the-Proxmox-Installer"><span class="toc-number">1.</span> <span class="toc-text">Step 1: Preparing the Proxmox Installer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-2-Installing-the-Proxmox-OS"><span class="toc-number">2.</span> <span class="toc-text">Step 2: Installing the Proxmox OS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Choosing-the-Filesystem"><span class="toc-number">2.1.</span> <span class="toc-text">Choosing the Filesystem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#My-Choice"><span class="toc-number">2.2.</span> <span class="toc-text">My Choice</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-3-Essential-Post-Installation-Tweaks"><span class="toc-number">3.</span> <span class="toc-text">Step 3: Essential Post-Installation Tweaks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-4-Building-Our-VM-Factory-with-Cloud-Init"><span class="toc-number">4.</span> <span class="toc-text">Step 4: Building Our VM Factory with Cloud-Init</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Method-1-Manual-ISO-Based-Installation"><span class="toc-number">4.1.</span> <span class="toc-text">Method 1: Manual ISO-Based Installation</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-1-Download-the-ISO"><span class="toc-number">4.1.1.</span> <span class="toc-text">Step 1: Download the ISO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-2-Create-a-VM"><span class="toc-number">4.1.2.</span> <span class="toc-text">Step 2: Create a VM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-3-Finalize-the-Template"><span class="toc-number">4.1.3.</span> <span class="toc-text">Step 3: Finalize the Template</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Method-2-Using-Prebuilt-Cloud-Images"><span class="toc-number">4.2.</span> <span class="toc-text">Method 2: Using Prebuilt Cloud Images</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Debian-Cloud-Image"><span class="toc-number">4.2.1.</span> <span class="toc-text">Debian Cloud Image</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Fedora-Cloud-Image"><span class="toc-number">4.2.2.</span> <span class="toc-text">Fedora Cloud Image</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-5-Securing-Access-with-SSH-Keys"><span class="toc-number">5.</span> <span class="toc-text">Step 5: Securing Access with SSH Keys</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-a-Secure-SSH-Key"><span class="toc-number">5.1.</span> <span class="toc-text">Generate a Secure SSH Key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-Your-Key"><span class="toc-number">5.2.</span> <span class="toc-text">Deploy Your Key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuring-the-SSH-Client-ssh-config"><span class="toc-number">5.3.</span> <span class="toc-text">Configuring the SSH Client (~&#x2F;.ssh&#x2F;config)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ssh-agent"><span class="toc-number">5.3.1.</span> <span class="toc-text">ssh-agent</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">6.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Draka</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-06-27T07:52:18.000Z" class="dt-published" itemprop="datePublished">2025-06-27</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Self-Hosting/">Self-Hosting</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/CloudInit/" rel="tag">CloudInit</a>, <a class="p-category" href="/tags/Filesystem/" rel="tag">Filesystem</a>, <a class="p-category" href="/tags/Infrastructure/" rel="tag">Infrastructure</a>, <a class="p-category" href="/tags/Networking/" rel="tag">Networking</a>, <a class="p-category" href="/tags/Proxmox/" rel="tag">Proxmox</a>, <a class="p-category" href="/tags/SysAdmin/" rel="tag">SysAdmin</a>, <a class="p-category" href="/tags/Template/" rel="tag">Template</a>, <a class="p-category" href="/tags/Virtualization/" rel="tag">Virtualization</a>, <a class="p-category" href="/tags/ZFS/" rel="tag">ZFS</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>The planning is done, the hardware has arrived, and the excitement is real. It’s time to move from blueprint to build. The very first step is to install the hypervisor, the operating system that will manage all our virtual machines and containers. As planned, we’ll be using <strong>Proxmox VE</strong>.</p>
+<p>In this post, I’ll walk you through preparing the installer, installing Proxmox, and performing the essential post-installation tasks to create a robust and flexible foundation for our homelab.</p>
+<h2 id="Step-1-Preparing-the-Proxmox-Installer"><a href="#Step-1-Preparing-the-Proxmox-Installer" class="headerlink" title="Step 1: Preparing the Proxmox Installer"></a>Step 1: Preparing the Proxmox Installer</h2><p>Before we can do anything on the new mini-PC, we need to create a bootable USB drive on another computer.</p>
+<ol>
+<li><p><strong>Download the Proxmox ISO</strong></p>
+<p> Visit the <a href="https://www.proxmox.com/en/downloads" title="" target="">Proxmox VE download page</a> and copy the ISO link. In this example, I’ll use version <code>8.3-1</code>.</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget https://enterprise.proxmox.com/iso/proxmox-ve_8.3-1.iso</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Verify the Download (Optional but Recommended)</strong></p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shasum -a 256 proxmox-ve_8.3-1.iso</span><br></pre></td></tr></table></figure>
+<p> Ensure the output matches the checksum listed on the Proxmox website.</p>
+</li>
+<li><p><strong>Create a Bootable USB</strong></p>
+<p> Insert a USB drive (at least 2GB), identify it using <code>lsblk</code>, and write the ISO with:</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> umount /dev/sdX1  <span class="comment"># Replace sdX1 with your USB partition</span></span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">dd</span> bs=1M conv=fdatasync <span class="keyword">if</span>=proxmox-ve_8.3-1.iso of=/dev/sdX</span><br></pre></td></tr></table></figure>
+<p> ⚠️ Make sure to double-check the device name (e.g., <code>/dev/sdX</code>) to avoid overwriting the wrong disk.</p>
+</li>
+<li><p><strong>Boot from USB</strong></p>
+<p> Plug the USB into your target machine, boot from it, and begin the installation.</p>
+</li>
+</ol>
+<h2 id="Step-2-Installing-the-Proxmox-OS"><a href="#Step-2-Installing-the-Proxmox-OS" class="headerlink" title="Step 2: Installing the Proxmox OS"></a>Step 2: Installing the Proxmox OS</h2><p>The process is straightforward, but one key decision is the filesystem. The rest of the setup involves setting your location, password, and network configuration.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+<video width="800" height="800" controls autoplay loop muted poster="proxmox_logo.png">
+<source src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/proxmox_setup.mp4" type="video/mp4"> Your browser does not support the video tag.
+</video>
+  <p style="color: #f7f7c1; margin-top: 15px; font-style: italic; text-align: center;">Proxmox Setup</p>
+</div>
+
+<h3 id="Choosing-the-Filesystem"><a href="#Choosing-the-Filesystem" class="headerlink" title="Choosing the Filesystem"></a>Choosing the Filesystem</h3><p>For less experienced readers, here’s a brief and simplified explanation of what a <strong>filesystem</strong> is.</p>
+<p>Whenever you format an entire disk or a partition, such as when installing a new operating system, you’re asked to choose a filesystem for that partition. A <strong>filesystem</strong> is the method an operating system uses to <strong>organize and store data</strong> on a storage device like a hard drive (HDD), solid-state drive (SSD), or USB stick. It determines <strong>how files are named, saved, accessed, and managed</strong>.</p>
+<p>The choice of filesystem can affect several important aspects, including:</p>
+<ul>
+<li><strong>Performance</strong></li>
+<li><strong>Compatibility</strong></li>
+<li><strong>Security</strong></li>
+<li><strong>Limits on file and volume size</strong></li>
+</ul>
+<p><strong>Example:</strong> If you’re using a USB drive that needs to work with both Windows and macOS, <strong>FAT32</strong> or <strong>exFAT</strong> is a good choice because of its broad compatibility. On the other hand, if you’re setting up a Linux server, <strong>ext4</strong> is usually a better option due to its reliability and performance.</p>
+<p>The most common filesystems for computer workstations are:</p>
+<ul>
+<li><strong>FAT32</strong> – Simple and widely compatible (Windows, macOS, Linux), but limited to files no larger than 4 GB.</li>
+<li><strong>NTFS</strong> – Used by Windows; supports large files and file permissions.</li>
+<li><strong>ext4</strong> – Commonly used on Linux; reliable and fast.</li>
+<li><strong>APFS</strong> – Used by macOS; optimized for SSDs.</li>
+</ul>
+<p>Since I am working only with Linux systems and also plan to create a NAS solution, I need to evaluate more advanced Linux filesystems that are optimized for specific purposes.</p>
+<p>The following table summarizes key information about the most common linux-compatible filesystems.</p>
+<div style="margin: 20px auto; line-height: 16px; padding: 0; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+  <table style="width: 100%; border-collapse: collapse; font-family: 'Courier New', monospace; background-color: #333333; border: 1px solid #444444; border-radius: 8px;">
+    <colgroup>
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+      <col style="width: 20%;">
+    </colgroup>
+    <thead>
+      <tr style="background-color: #444444; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;"></th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">EXT4</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">XFS</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">BtrFS</th>
+        <th style="padding: 14px 20px; color: #e0e0e0; font-weight: 600; text-align: center; border: 1px solid #555555;">OpenZFS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Online Enlarge</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+      </tr>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Online Shrink</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+      </tr>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Offline Enlarge</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+      </tr>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Offline Shrink</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+      </tr>
+    <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Compression</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+      </tr>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Encryption</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+      </tr>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Checksum</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌ (only on metadata)</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌ (only on metadata)</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+      </tr>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Snapshots</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+      </tr>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Deduplication</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+      </tr>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Journaling</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">✅</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">CoW</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">CoW</td>
+      </tr>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">RAID Support</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">❌</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Basic</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Advanced</td>
+      </tr>
+      <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Limitations</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Few</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Few</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Needs regular scrub/rebalance; unstable RAID 5/6</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">High RAM usage, Kernel Out-of-tree module, Max usage limit 94%</td>
+      </tr>
+        <tr style="color: #e0e0e0; transition: background-color 0.3s ease;">
+        <td style="padding: 16px 20px; font-weight: 600; text-align: left; border: 1px solid #555555;">Best For</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">General Purpose</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Large files</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Modern Linux Distros</td>
+        <td style="padding: 16px 20px; text-align: center; border: 1px solid #555555;">Storage</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="text-align: center; color: #e0e0e0; font-weight: 600; margin-top: 20px;">Linux Filesystems Comparison</p>
+</div>
+
+<style>
+    /* Add hover effect */
+    tr:hover {
+        background-color: #555555;
+    }
+</style>
+
+<h3 id="My-Choice"><a href="#My-Choice" class="headerlink" title="My Choice"></a>My Choice</h3><p>As I outlined in my planning post, I have three SSDs.</p>
+<ul>
+<li><p><strong>For the Proxmox OS drive:</strong> I chose <strong>EXT4</strong>. It’s simple, stable, and perfectly suited for the hypervisor’s operating system.</p>
+</li>
+<li><p><strong>For the two data drives:</strong> I will configure these later with <strong>ZFS</strong> in a RAID-1 mirror. ZFS offers advanced features like data integrity, snapshots, and encryption, which are ideal for a reliable NAS.</p>
+</li>
+</ul>
+<p>Once the installation finishes, the system will reboot. You can now access the Proxmox web interface from another computer on the same LAN at:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://your-ip-address:8006</span><br></pre></td></tr></table></figure>
+
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/proxmox_login.png" alt="Proxmox Login screen" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+
+<h2 id="Step-3-Essential-Post-Installation-Tweaks"><a href="#Step-3-Essential-Post-Installation-Tweaks" class="headerlink" title="Step 3: Essential Post-Installation Tweaks"></a>Step 3: Essential Post-Installation Tweaks</h2><p>With Proxmox running, a few initial configuration steps will set us up for success.</p>
+<p><strong>1. Configure Community Repositories:</strong> By default, Proxmox uses enterprise repositories that require a paid subscription. For a homelab, we’ll switch to the free, “no-subscription” repositories.</p>
+<ul>
+<li>In the Proxmox UI, go to <code>Datacenter &gt; pve &gt; Updates &gt; Repositories</code>.</li>
+<li>Disable the <code>pve-enterprise</code> repository.</li>
+<li>Click <strong>Add</strong>, select the <strong>No-Subscription</strong> repository, and add it.</li>
+<li>Reload the package list to apply the changes.</li>
+</ul>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/proxmox_final_repo.png" alt="Proxmox screen showing final state for repositories settings" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<p><strong>2. Set Up Network Bridges:</strong> As planned, we’ll use an OpenWRT VM to manage our network. To facilitate this, we need two “virtual switches” (Linux Bridges): one for the public internet (WAN) and one for our private network (LAN).</p>
+<ul>
+<li><strong>vmbr0 (WAN):</strong> Proxmox creates this bridge by default during installation. We’ll connect this to our physical internet connection.</li>
+<li><strong>vmbr1 (LAN):</strong> We need to create this one. Go to <code>pve &gt; System &gt; Network</code>, click <strong>Create &gt; Linux Bridge</strong>, name it <code>vmbr1</code>, and check the <strong>VLAN Aware</strong> box. This bridge will handle all our internal VM traffic.</li>
+</ul>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vmbr1_creation.png" alt="Setting Up Network Bridge VMBR1 for LAN" style="max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<p>This setup gives our future OpenWRT VM the connections it needs to route traffic between our home environment and the outside world.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/network_final.png" alt="Window showing networking final configuration" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<h2 id="Step-4-Building-Our-VM-Factory-with-Cloud-Init"><a href="#Step-4-Building-Our-VM-Factory-with-Cloud-Init" class="headerlink" title="Step 4: Building Our VM Factory with Cloud-Init"></a>Step 4: Building Our VM Factory with Cloud-Init</h2><p>To speed up VM creation, we’ll create templates. Instead of installing an OS from scratch every time, we can clone a template and have a new machine running in seconds. The magic behind this is <strong>Cloud-Init</strong>, a tool that automates the initial setup (hostname, users, SSH keys, etc.).</p>
+<p>I’ll cover two ways to create cloud-init templates:</p>
+<h3 id="Method-1-Manual-ISO-Based-Installation"><a href="#Method-1-Manual-ISO-Based-Installation" class="headerlink" title="Method 1: Manual ISO-Based Installation"></a>Method 1: Manual ISO-Based Installation</h3><h4 id="Step-1-Download-the-ISO"><a href="#Step-1-Download-the-ISO" class="headerlink" title="Step 1: Download the ISO"></a>Step 1: Download the ISO</h4><p>Visit the <a href="https://cdimage.debian.org/" title="" target="">Debian download page</a>  and grab the <strong>netinst</strong> ISO. </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/debian_download.png" alt="Debian download official webpage" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<p>For example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.8.0-amd64-netinst.iso</span><br></pre></td></tr></table></figure>
+
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/debian_sha512.png" alt="Debian installer sha-512 hash" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Save the <strong>SHA-512</strong> checksum and upload the ISO in Proxmox via:</p>
+<ul>
+<li><code>Datacenter &gt; pve1 &gt; local(pve1) &gt; ISO Images &gt; Download from URL</code></li>
+</ul>
+<p>Paste the ISO URL, click <strong>Query URL</strong>, then select the hash algorithm and paste the SHA-512 value for automatic verification.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/download_completed.png" alt="Proxmox window showing download completed" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<h4 id="Step-2-Create-a-VM"><a href="#Step-2-Create-a-VM" class="headerlink" title="Step 2: Create a VM"></a>Step 2: Create a VM</h4><p>Create a new VM manually as follow:</p>
+<ol>
+<li><p>Choose an ID. I will use <strong>8000</strong> for templates.    </p>
+</li>
+<li><p>Choose a name for the template.  </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_1.png" alt="Proxmox VM creation step 1" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+ </li>
+<li><p>Select the image you previously downloaded as ISO image.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_2.png" alt="Proxmox VM creation step 2" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+ </li>
+<li><p>Select <strong>“q35”</strong> as the machine type, enable <strong>“QEMU Agent”</strong>, and optionally choose <strong>UEFI BIOS</strong> (as I did).  </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_3.png" alt="Proxmox VM creation step 3" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+</li>
+<li><p>Select a disk size. If you’re using SSDs, choose <strong>“SSD emulation”</strong>, and leave the other options at their defaults.  </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_4.png" alt="Proxmox VM creation step 4" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+</li>
+<li><p>Select <strong>“host”</strong> as the CPU type and leave the other options at their defaults.  </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_5.png" alt="Proxmox VM creation step 5" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+</li>
+<li><p>Choose the desired memory amount and leave the other options at their defaults.  </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_6.png" alt="Proxmox VM creation step 6" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+</li>
+<li><p>Leave <strong>vmbr0</strong> selected for now; we will modify it later after setting up the VM.  </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_7.png" alt="Proxmox VM creation step 7" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+</li>
+<li><p>Finally, click <strong>“Finish”</strong> to create the VM.  </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/vm_8.png" alt="Proxmox VM creation step 8" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div></li>
+</ol>
+<p>Alternatively to this procedure, use this command on Proxmox host:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">qm create 8000 --name debian12-cloudinit --machine q35 --agent enabled=1 --cpu host --cores 2 --memory 2048 --net0 virtio,bridge=vmbr0 --scsi0 local-lvm:20,format=raw --ide2 <span class="built_in">local</span>:iso/debian-12.8.0-amd64-netinst.iso,media=cdrom --boot order=scsi0</span><br><span class="line">qm <span class="built_in">set</span> 8000 --bios ovmf --efidisk0 local-lvm:1,format=raw,efitype=4m,pre-enrolled-keys=1</span><br></pre></td></tr></table></figure>
+
+<p>Install Debian as usual and then prepare the system for cloud-init:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install cloud-init</span><br><span class="line"><span class="built_in">sudo</span> passwd -d root</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">truncate</span> -s 0 /etc/machine-id /var/lib/dbus/machine-id</span><br><span class="line"><span class="built_in">sudo</span> cloud-init clean</span><br></pre></td></tr></table></figure>
+
+<h4 id="Step-3-Finalize-the-Template"><a href="#Step-3-Finalize-the-Template" class="headerlink" title="Step 3: Finalize the Template"></a>Step 3: Finalize the Template</h4><ol>
+<li><p>Shut down the VM. Go to the <strong>“Hardware”</strong> tab, select the boot disk, and click <strong>“Remove”</strong> to delete it.  </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/remove_disk.png" alt="Proxmox Template finalization step 1" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+</li>
+<li><p>After removal, the setup should look like this:  </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/removed_disk.png" alt="Proxmox Template finalization step 2" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+</li>
+<li><p>Next, go to <strong>Hardware &gt; Add &gt; CloudInit Drive</strong>.  </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/add_cloudinit.png" alt="Proxmox Template finalization step 3" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+</li>
+<li><p>Select the <strong>ide2</strong> slot and choose <strong>“local-lvm”</strong> as the storage location, then click <strong>“Add”</strong>.  </p>
+</li>
+<li><p>Once this is done, the configuration is complete. You can now right-click on the VM and select <strong>“Convert to Template”</strong>.  </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/convert_template.png" alt="Proxmox Template finalization step 5" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+</li>
+<li><p>Now, go to the <strong>Cloud-Init</strong> section of the VM template to edit your settings as desired.  </p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/cloud_init_settings.png" alt="Proxmox Template finalization step 6" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div></li>
+</ol>
+<p>Now you can <strong>clone</strong> the template anytime and Proxmox will inject the desired settings at boot.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/my_debian_vm.png" alt="Proxmox Template finalization step 7" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<h3 id="Method-2-Using-Prebuilt-Cloud-Images"><a href="#Method-2-Using-Prebuilt-Cloud-Images" class="headerlink" title="Method 2: Using Prebuilt Cloud Images"></a>Method 2: Using Prebuilt Cloud Images</h3><p>A faster way is to use official <strong>cloud-ready QCOW2 images</strong>. Here’s how to do it for Debian and Fedora:</p>
+<h4 id="Debian-Cloud-Image"><a href="#Debian-Cloud-Image" class="headerlink" title="Debian Cloud Image"></a>Debian Cloud Image</h4><p>Go to the official Debian Cloud Image website and copy the URL to download the QCOW2 image file.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/debian_cloudimage.png" alt="The Debian Cloud Image on Official Website" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Then, on Proxmox host run:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget https://cdimage.debian.org/images/cloud/bookworm/latest/debian-12-generic-amd64.qcow2</span><br><span class="line"></span><br><span class="line">qm create 8000 --name debian12-cloudinit --agent enabled=1 --cpu host --cores 1 --memory 2048 --net0 virtio,bridge=vmbr1,tag=20 --scsihw virtio-scsi-pci --machine q35</span><br><span class="line">qm importdisk 8000 debian-12-generic-amd64.qcow2 local-lvm --format qcow2</span><br><span class="line">qm <span class="built_in">set</span> 8000 --scsi0 local-lvm:vm-8000-disk-0</span><br><span class="line">qm disk resize 8000 scsi0 20G</span><br><span class="line">qm <span class="built_in">set</span> 8000 --boot order=scsi0 --bios ovmf --efidisk0 local-lvm:1,format=raw,efitype=4m,pre-enrolled-keys=1 --ide2 local-lvm:cloudinit</span><br><span class="line">qm template 8000</span><br></pre></td></tr></table></figure>
+
+<h4 id="Fedora-Cloud-Image"><a href="#Fedora-Cloud-Image" class="headerlink" title="Fedora Cloud Image"></a>Fedora Cloud Image</h4><p>The same procedure can be followed for other distributions such as Fedora or Ubuntu. For example, here’s how it works with Fedora:</p>
+<p>Get the official Fedora Cloud Image download link:</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/fedora_cloudimage.png" alt="The Fedora Cloud Image on Official Website" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Then, on Proxmox host run:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget https://download.fedoraproject.org/pub/fedora/linux/releases/41/Cloud/x86_64/images/Fedora-Cloud-Base-Generic-41-1.4.x86_64.qcow2</span><br><span class="line"></span><br><span class="line">qm create 8001 --name fedora41-cloudinit --agent enabled=1 --cpu host --cores 1 --memory 2048 --net0 virtio,bridge=vmbr1,tag=20 --scsihw virtio-scsi-pci --machine q35</span><br><span class="line">qm importdisk 8001 Fedora-Cloud-Base-Generic-41-1.4.x86_64.qcow2 local-lvm --format qcow2</span><br><span class="line">qm <span class="built_in">set</span> 8001 --scsi0 local-lvm:vm-8001-disk-0</span><br><span class="line">qm disk resize 8001 scsi0 20G</span><br><span class="line">qm <span class="built_in">set</span> 8001 --boot order=scsi0 --bios ovmf --efidisk0 local-lvm:1,format=raw,efitype=4m,pre-enrolled-keys=1 --ide2 local-lvm:cloudinit</span><br><span class="line">qm template 8001</span><br></pre></td></tr></table></figure>
+
+<p>These templates are ready to be cloned and launched with minimal setup.</p>
+<h2 id="Step-5-Securing-Access-with-SSH-Keys"><a href="#Step-5-Securing-Access-with-SSH-Keys" class="headerlink" title="Step 5: Securing Access with SSH Keys"></a>Step 5: Securing Access with SSH Keys</h2><p>Password-based logins are vulnerable to brute-force attacks. SSH keys are the industry standard for secure remote access.</p>
+<h3 id="Generate-a-Secure-SSH-Key"><a href="#Generate-a-Secure-SSH-Key" class="headerlink" title="Generate a Secure SSH Key"></a>Generate a Secure SSH Key</h3><p>On your personal computer (not the server), generate an <strong>ED25519</strong> key, which is modern, fast, and secure.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t ed25519 -a 100 -C <span class="string">&quot;your-identifier&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-t ed25519</code>: Use the modern, secure ED25519 algorithm.    </li>
+<li><code>-a 100</code>: Use key derivation rounds to harden the private key passphrase.</li>
+<li><code>-C</code>: Add a comment to identify the key (like your email or device name).</li>
+</ul>
+<p>It is recommended to protect the key with a strong passphrase to safeguard it in case the device is stolen or compromised.</p>
+<p>You’ll get two files:</p>
+<ul>
+<li><code>~/.ssh/id_ed25519</code> (your <strong>private key</strong>, keep it secret!)    </li>
+<li><code>~/.ssh/id_ed25519.pub</code> (your <strong>public key</strong>, share it freely)</li>
+</ul>
+<h3 id="Deploy-Your-Key"><a href="#Deploy-Your-Key" class="headerlink" title="Deploy Your Key"></a>Deploy Your Key</h3><p>Copy the contents of your public key (<code>id_ed25519.pub</code>). In the Proxmox UI, go to your VM template’s <strong>Cloud-Init</strong> tab and paste the public key into the “SSH public key” field. Now, any VM cloned from this template will automatically trust your key, allowing you to log in securely without a password.</p>
+<h3 id="Configuring-the-SSH-Client-ssh-config"><a href="#Configuring-the-SSH-Client-ssh-config" class="headerlink" title="Configuring the SSH Client (~/.ssh/config)"></a>Configuring the SSH Client (<code>~/.ssh/config</code>)</h3><p>To simplify connections and enforce good defaults, create a config file:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.ssh/config</span><br></pre></td></tr></table></figure>
+
+<p>Here’s a sample:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Host *</span><br><span class="line">    ForwardAgent no</span><br><span class="line">    ForwardX11 no</span><br><span class="line">    StrictHostKeyChecking <span class="built_in">yes</span></span><br><span class="line">    UserKnownHostsFile ~/.ssh/known_hosts</span><br><span class="line">    LogLevel INFO</span><br><span class="line">    ServerAliveInterval 60</span><br><span class="line">    ServerAliveCountMax 3</span><br><span class="line">    Ciphers aes256-ctr,aes192-ctr,aes128-ctr</span><br><span class="line">    MACs hmac-sha2-512,hmac-sha2-256</span><br><span class="line">    KexAlgorithms ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256</span><br><span class="line"></span><br><span class="line">Host pve-vm</span><br><span class="line">    HostName 192.168.1.100</span><br><span class="line">    User user</span><br><span class="line">    IdentityFile ~/.ssh/id_ed25519</span><br><span class="line">    IdentitiesOnly <span class="built_in">yes</span></span><br></pre></td></tr></table></figure>
+
+<p>This lets you SSH into your VM with:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh pve-vm</span><br></pre></td></tr></table></figure>
+
+<p>The ssh key to be used can be specified through <code>-I</code> flag, if it is not specified in the configuration file as follow:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -I ~/.ssh/id_ed25519 user@machine</span><br></pre></td></tr></table></figure>
+
+<p>As alternative, you can automatically use your ssh keys by leveraging the ssh-agent. If you want to use the ssh-agent ensure to remove  <code>IdentitiesOnly yes</code> option in config file.</p>
+<h4 id="ssh-agent"><a href="#ssh-agent" class="headerlink" title="ssh-agent"></a>ssh-agent</h4><p>The ssh-agent is installed by default in almost any linux distribution, it is included in openssh-client package, and it is a background daemon that securely stores your decrypted SSH private keys in memory. It allows you to enter your passphrase once and reuse those keys for subsequent SSH sessions without retyping it.</p>
+<p>When the ssh-agent is running, it loads in memory the ssh keys and creates a unix socket to interact with them.</p>
+<p>The following are some common commands to manage the ssh-agent.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># Start the agent, this will create env variables SSH_AUTH_SOCK, SSH_AGENT_PID</span><br><span class="line">eval &quot;$(ssh-agent -s)&quot;</span><br><span class="line"></span><br><span class="line"># List loaded keys fingerprint</span><br><span class="line">ssh-add -l </span><br><span class="line"></span><br><span class="line"># List loaded keys public keys</span><br><span class="line">ssh-add -L</span><br><span class="line"></span><br><span class="line"># Add private key to the agent</span><br><span class="line">ssh-add ~/.ssh/id_ed25519</span><br><span class="line"></span><br><span class="line"># Remove private key from the agent</span><br><span class="line">ssh-add -d ~/.ssh/id_ed25519</span><br><span class="line"></span><br><span class="line"># Remove all private key from the agent</span><br><span class="line">ssh-add -D</span><br><span class="line"></span><br><span class="line"># Stopping the agent</span><br><span class="line">eval &quot;$(ssh-agent -k)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Another useful feature of ssh-agent is agent forwarding. Agent forwarding is useful when you need to log in to a remote host using an SSH key via a jump host. By using it, you can avoid storing your SSH key on the jump host. Agent forwarding works by forwarding access to your local <code>ssh-agent</code>‘s Unix socket to the remote host. If you initiate an SSH connection from there, the remote host can relay signing requests back to your local agent.</p>
+<p>To enable agent forwarding, use the <code>-A</code> option when connecting via SSH, or enable it in the configuration file by adding <code>ForwardAgent yes</code> for a specific host.</p>
+<p>Pay particular attention when using agent forwarding, use it only with trusted machines. The forwarded Unix socket can be abused if the jump host is shared with other users or has been compromised. An attacker could use your keys (via the forwarded socket) to authenticate elsewhere, even though they cannot extract the private key.</p>
+<p>Additionally, there was a notable vulnerability, CVE-2023-38408, which was patched in OpenSSH 9.3p2 and later. This vulnerability, related to OpenSSH’s forwarding via PKCS#11, could allow remote code execution on your local machine.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>We’ve successfully laid the foundation. Proxmox is installed, our network is prepped for advanced configuration, and we have a streamlined process for deploying new virtual machines. The server is no longer just a box of components; it’s a living, breathing platform ready for action.</p>
+<p>In the next post, we’ll tackle the next major piece of our architecture: <strong>networking</strong>. I’ll show you how to install and configure <strong>OpenWRT</strong> as a virtual router inside Proxmox, giving us fine-grained control over our digital domain with VLANs, firewalls, and more.<br><strong>Stay tuned! 🚀</strong></p>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-1-Preparing-the-Proxmox-Installer"><span class="toc-number">1.</span> <span class="toc-text">Step 1: Preparing the Proxmox Installer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-2-Installing-the-Proxmox-OS"><span class="toc-number">2.</span> <span class="toc-text">Step 2: Installing the Proxmox OS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Choosing-the-Filesystem"><span class="toc-number">2.1.</span> <span class="toc-text">Choosing the Filesystem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#My-Choice"><span class="toc-number">2.2.</span> <span class="toc-text">My Choice</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-3-Essential-Post-Installation-Tweaks"><span class="toc-number">3.</span> <span class="toc-text">Step 3: Essential Post-Installation Tweaks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-4-Building-Our-VM-Factory-with-Cloud-Init"><span class="toc-number">4.</span> <span class="toc-text">Step 4: Building Our VM Factory with Cloud-Init</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Method-1-Manual-ISO-Based-Installation"><span class="toc-number">4.1.</span> <span class="toc-text">Method 1: Manual ISO-Based Installation</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-1-Download-the-ISO"><span class="toc-number">4.1.1.</span> <span class="toc-text">Step 1: Download the ISO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-2-Create-a-VM"><span class="toc-number">4.1.2.</span> <span class="toc-text">Step 2: Create a VM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Step-3-Finalize-the-Template"><span class="toc-number">4.1.3.</span> <span class="toc-text">Step 3: Finalize the Template</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Method-2-Using-Prebuilt-Cloud-Images"><span class="toc-number">4.2.</span> <span class="toc-text">Method 2: Using Prebuilt Cloud Images</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Debian-Cloud-Image"><span class="toc-number">4.2.1.</span> <span class="toc-text">Debian Cloud Image</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Fedora-Cloud-Image"><span class="toc-number">4.2.2.</span> <span class="toc-text">Fedora Cloud Image</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-5-Securing-Access-with-SSH-Keys"><span class="toc-number">5.</span> <span class="toc-text">Step 5: Securing Access with SSH Keys</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-a-Secure-SSH-Key"><span class="toc-number">5.1.</span> <span class="toc-text">Generate a Secure SSH Key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-Your-Key"><span class="toc-number">5.2.</span> <span class="toc-text">Deploy Your Key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuring-the-SSH-Client-ssh-config"><span class="toc-number">5.3.</span> <span class="toc-text">Configuring the SSH Client (~&#x2F;.ssh&#x2F;config)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ssh-agent"><span class="toc-number">5.3.1.</span> <span class="toc-text">ssh-agent</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-number">6.</span> <span class="toc-text">Conclusion</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&text=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&title=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&is_video=false&description=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox&body=Check out this article: https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&title=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&title=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&title=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&title=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&name=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://draka15.github.io/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/&t=Self-Hosting Journey - Part 4 - Building the Foundation with Proxmox"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    Luca Santini
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+<link rel="stylesheet" href="/css/asciinema-player.css">
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'draka15/draka-blog';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'gruvbox-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+<script src="/js/asciinema-player.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="In this post, we dive into networking by installing OpenWRT as a virtual router in Proxmox. You’ll get fine control with VLANs, firewalls, WireGuard VPN, and a DNS server for local resolution, ad-bloc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT">
+<meta property="og:url" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/">
+<meta property="og:site_name" content="The Draka Blog">
+<meta property="og:description" content="In this post, we dive into networking by installing OpenWRT as a virtual router in Proxmox. You’ll get fine control with VLANs, firewalls, WireGuard VPN, and a DNS server for local resolution, ad-bloc">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/openwrt_login.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/vlan_10.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/vlan10_interface_details.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/dhcp_settings_vlan10.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/vlan10_firewall.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/isolate_wan.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/wireguard_3.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/wireguard_5.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/wireguard_7.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/wireguard_firewall.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/port_forwarding.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/adguard_2.png">
+<meta property="og:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/adguard_7.png">
+<meta property="article:published_time" content="2025-07-30T18:20:26.000Z">
+<meta property="article:modified_time" content="2025-11-24T10:08:50.000Z">
+<meta property="article:author" content="Luca Santini">
+<meta property="article:tag" content="SysAdmin">
+<meta property="article:tag" content="Networking">
+<meta property="article:tag" content="Openwrt">
+<meta property="article:tag" content="Router">
+<meta property="article:tag" content="Firewall">
+<meta property="article:tag" content="VLANs">
+<meta property="article:tag" content="VPN">
+<meta property="article:tag" content="Wireguard">
+<meta property="article:tag" content="DDNS">
+<meta property="article:tag" content="Cloudflare">
+<meta property="article:tag" content="Adguard">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/openwrt_login.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+    <script async defer
+            data-website-id="0a216adb-458c-44ec-a2ee-9cc08c2e9b45"
+            src="https://analytics.draka.me/script.js">
+    </script>
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="The Draka Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss.xml" title="The Draka Blog" type="application/rss+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/Self-Hosting-Journey-Part-6-Providing-Storage-with-NAS/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/Self-Hosting-Journey-Part-4-Building-the-Foundation-with-Proxmox/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&text=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&title=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&is_video=false&description=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT&body=Check out this article: https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&title=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&title=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&title=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&title=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&name=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&t=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-OpenWrt"><span class="toc-number">1.</span> <span class="toc-text">Why OpenWrt?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-1-Giving-Our-Router-a-Virtual-Home"><span class="toc-number">2.</span> <span class="toc-text">Step 1: Giving Our Router a Virtual Home</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LXC-Container-Lightweight-Alternative"><span class="toc-number">2.1.</span> <span class="toc-text">LXC Container (Lightweight Alternative)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-2-The-Initial-Configuration"><span class="toc-number">3.</span> <span class="toc-text">Step 2: The Initial Configuration</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-etc-config-network"><span class="toc-number">3.1.</span> <span class="toc-text">Example: &#x2F;etc&#x2F;config&#x2F;network</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-etc-config-firewall"><span class="toc-number">3.2.</span> <span class="toc-text">Example: &#x2F;etc&#x2F;config&#x2F;firewall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-etc-config-system"><span class="toc-number">3.3.</span> <span class="toc-text">Example: &#x2F;etc&#x2F;config&#x2F;system</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-3-Drawing-the-Lines-with-VLANs-and-Firewalls"><span class="toc-number">4.</span> <span class="toc-text">Step 3: Drawing the Lines with VLANs and Firewalls</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-generated-etc-config-network-snippet"><span class="toc-number">4.1.</span> <span class="toc-text">Example: generated &#x2F;etc&#x2F;config&#x2F;network (snippet):</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DHCP-for-VLANs"><span class="toc-number">4.2.</span> <span class="toc-text">DHCP for VLANs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Firewall-Configuration-for-VLANs"><span class="toc-number">5.</span> <span class="toc-text">Firewall Configuration for VLANs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-4-Accessing-Our-Home-from-the-Outside-World"><span class="toc-number">6.</span> <span class="toc-text">Step 4: Accessing Our Home from the Outside World</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuring-DDNS-with-Cloudflare"><span class="toc-number">6.1.</span> <span class="toc-text">Configuring DDNS with Cloudflare</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Setting-up-the-WireGuard-VPN"><span class="toc-number">7.</span> <span class="toc-text">Setting up the WireGuard VPN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Connecting-to-the-VPN-from-My-Laptop"><span class="toc-number">7.1.</span> <span class="toc-text">Connecting to the VPN from My Laptop</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-5-The-Final-Polish-Smart-and-Clean-DNS-with-AdGuard-Home"><span class="toc-number">8.</span> <span class="toc-text">Step 5: The Final Polish: Smart and Clean DNS with AdGuard Home</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion-The-Network-is-Forged"><span class="toc-number">9.</span> <span class="toc-text">Conclusion: The Network is Forged</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Draka</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-07-30T18:20:26.000Z" class="dt-published" itemprop="datePublished">2025-07-30</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Self-Hosting/">Self-Hosting</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Adguard/" rel="tag">Adguard</a>, <a class="p-category" href="/tags/Cloudflare/" rel="tag">Cloudflare</a>, <a class="p-category" href="/tags/DDNS/" rel="tag">DDNS</a>, <a class="p-category" href="/tags/Firewall/" rel="tag">Firewall</a>, <a class="p-category" href="/tags/Networking/" rel="tag">Networking</a>, <a class="p-category" href="/tags/Openwrt/" rel="tag">Openwrt</a>, <a class="p-category" href="/tags/Router/" rel="tag">Router</a>, <a class="p-category" href="/tags/SysAdmin/" rel="tag">SysAdmin</a>, <a class="p-category" href="/tags/VLANs/" rel="tag">VLANs</a>, <a class="p-category" href="/tags/VPN/" rel="tag">VPN</a>, <a class="p-category" href="/tags/Wireguard/" rel="tag">Wireguard</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Welcome back! In our last post, we laid the digital foundation by installing Proxmox. Our server is alive, but right now, it’s like a building with no internal walls. Before we can start moving in our applications, we need to build the network they’ll live on. This is where we bring the networking blueprint from <a target="_blank" rel="noopener" href="https://blog.draka.me/Self-Hosting-Journey-Part-3-Planning-the-Infrastructure/">Part 3</a> to life.</p>
+<p>Our goal is to create a secure, segmented, and professional-grade network. To do this, we’ll run <strong>OpenWrt</strong>, a powerful open-source router OS, inside its own virtual machine. This VM will become the heart of our network, acting as the central router and firewall for the entire home.local domain.</p>
+<p>Let’s dive in and forge this critical backbone.</p>
+<h2 id="Why-OpenWrt"><a href="#Why-OpenWrt" class="headerlink" title="Why OpenWrt?"></a>Why OpenWrt?</h2><p>My choice of OpenWrt over popular alternatives like pfSense or OPNsense came down to a key future goal: handling my home’s Wi-Fi network directly from the mini-PC.</p>
+<p>pfSense and OPNsense are based on FreeBSD, which has historically had spotty compatibility and performance with many Wi-Fi chipsets. OpenWrt, on the other hand, is Linux-based. This puts it firmly in my comfort zone and gives it a significant edge in wireless driver support and flexibility.</p>
+<p>In this post, I’ll walk through the full setup, including:</p>
+<ul>
+<li>Installing and configuring <strong>OpenWrt</strong> in a Proxmox VM.</li>
+<li>Creating and isolating network segments with <strong>VLANs</strong>.</li>
+<li>Setting up a secure <strong>WireGuard VPN</strong> with DDNS for remote access.</li>
+<li>Deploying <strong>AdGuard Home</strong> for network-wide ad-blocking and clean DNS.</li>
+</ul>
+<h2 id="Step-1-Giving-Our-Router-a-Virtual-Home"><a href="#Step-1-Giving-Our-Router-a-Virtual-Home" class="headerlink" title="Step 1: Giving Our Router a Virtual Home"></a>Step 1: Giving Our Router a Virtual Home</h2><p>While it’s possible to run OpenWrt in a lightweight LXC container, I’m opting for a full <strong>Virtual Machine</strong> to achieve the strongest possible isolation between my network controller and the rest of the system.</p>
+<p>First, I downloaded the latest x86&#x2F;64 image from OpenWrt’s <a target="_blank" rel="noopener" href="https://downloads.openwrt.org/">official download page</a>. Then, from the Proxmox host’s command line, I created the VM:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line"></span><br><span class="line"><span class="comment"># Download and verify the image</span></span><br><span class="line">wget https://downloads.openwrt.org/releases/23.05.5/targets/x86/64/openwrt-23.05.5-x86-64-generic-ext4-combined.img.gz</span><br><span class="line"></span><br><span class="line">shasum -a 256 openwrt-23.05.5-x86-64-generic-ext4-combined.img.gz</span><br><span class="line"><span class="comment"># Should match: f5c77659a33bd43cba105cf2f75e56d054fa9e0b9a73dc9f2a5bcb0e126ff7d5</span></span><br><span class="line"></span><br><span class="line">gunzip openwrt-23.05.5-x86-64-generic-ext4-combined.img.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create VM</span></span><br><span class="line">qm create 100 --name openwrt --cpu host --cores 1 --memory 1024 \</span><br><span class="line">  --net0 virtio,bridge=vmbr0 --net1 virtio,bridge=vmbr1 \</span><br><span class="line">  --scsihw virtio-scsi-pci --machine q35 --agent 1</span><br><span class="line"></span><br><span class="line"><span class="comment"># Import and attach disk</span></span><br><span class="line">qm importdisk 100 openwrt-23.05.5-x86-64-generic-ext4-combined.img local-lvm</span><br><span class="line">qm <span class="built_in">set</span> 100 -scsi0 local-lvm:vm-100-disk-0</span><br><span class="line">qm <span class="built_in">set</span> 100 --boot order=scsi0</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add a serial interface for connection via the pve1 SSH session.</span></span><br><span class="line">qm <span class="built_in">set</span> 100 -serial0 socket</span><br><span class="line"></span><br><span class="line"><span class="comment"># Boot and connect</span></span><br><span class="line">qm start 100</span><br></pre></td></tr></table></figure>
+
+<p>I attached two network interfaces: one to <code>vmbr0</code> (WAN bridge for internet access) and another to <code>vmbr1</code> (LAN bridge for our internal network).</p>
+<h3 id="LXC-Container-Lightweight-Alternative"><a href="#LXC-Container-Lightweight-Alternative" class="headerlink" title="LXC Container (Lightweight Alternative)"></a>LXC Container (Lightweight Alternative)</h3><p>If you’re OK with less isolation and want to try OpenWrt in an LXC container:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget https://downloads.openwrt.org/releases/23.05.5/targets/x86/64/openwrt-23.05.5-x86-64-rootfs.tar.gz</span><br><span class="line">shasum -a 256 openwrt-23.05.5-x86-64-rootfs.tar.gz</span><br><span class="line"><span class="comment"># Should match: 383311300e1fd796f5a39bf09ad87bcedec61a7f09263f79cd1352757a3573a9</span></span><br><span class="line"></span><br><span class="line">pct create 100 /tmp/openwrt-23.05.5-x86-64-rootfs.tar.gz \</span><br><span class="line">  --unprivileged 1 --<span class="built_in">arch</span> amd64 --ostype unmanaged \</span><br><span class="line">  --cores 1 --memory 2048 --swap 512 --hostname openwrt \</span><br><span class="line">  --net0 <span class="string">&quot;name=eth0,bridge=vmbr0&quot;</span> --net1 <span class="string">&quot;name=eth1,bridge=vmbr1&quot;</span> \</span><br><span class="line">  --storage local-lvm</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Step-2-The-Initial-Configuration"><a href="#Step-2-The-Initial-Configuration" class="headerlink" title="Step 2: The Initial Configuration"></a>Step 2: The Initial Configuration</h2><p>With the VM running, I connected via the Proxmox console to perform the initial setup. The first steps are to set a root password and configure the basic network settings in <code>/etc/config/network</code> and a firewall rule to be able to access the openwrt web interface. </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># From the proxmox host, connect to the openwrt machine via serial console</span></span><br><span class="line">qm terminal 100</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set a root password</span></span><br><span class="line">passwd</span><br><span class="line"></span><br><span class="line"><span class="comment"># Edit hostname and timezone</span></span><br><span class="line">vim /etc/config/system</span><br><span class="line"></span><br><span class="line"><span class="comment"># Configure networking</span></span><br><span class="line">vim /etc/config/network</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add firewall rule for web access from WAN</span></span><br><span class="line">vim /etc/config/firewall</span><br></pre></td></tr></table></figure>
+
+<h3 id="Example-etc-config-network"><a href="#Example-etc-config-network" class="headerlink" title="Example: /etc/config/network"></a>Example: <code>/etc/config/network</code></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">config interface <span class="string">&#x27;loopback&#x27;</span></span><br><span class="line">    option device <span class="string">&#x27;lo&#x27;</span></span><br><span class="line">    option proto <span class="string">&#x27;static&#x27;</span></span><br><span class="line">    option ipaddr <span class="string">&#x27;127.0.0.1&#x27;</span></span><br><span class="line">    option netmask <span class="string">&#x27;255.0.0.0&#x27;</span></span><br><span class="line"></span><br><span class="line">config interface <span class="string">&#x27;wan&#x27;</span></span><br><span class="line">    option device <span class="string">&#x27;eth0&#x27;</span></span><br><span class="line">    option proto <span class="string">&#x27;static&#x27;</span></span><br><span class="line">    option ipaddr <span class="string">&#x27;192.168.1.71&#x27;</span></span><br><span class="line">    option netmask <span class="string">&#x27;255.255.255.0&#x27;</span></span><br><span class="line">    option gateway <span class="string">&#x27;192.168.1.1&#x27;</span></span><br><span class="line">    list dns <span class="string">&#x27;1.1.1.1&#x27;</span></span><br><span class="line">    list dns <span class="string">&#x27;8.8.8.8&#x27;</span></span><br><span class="line">    list dns_search <span class="string">&#x27;home.local&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Example-etc-config-firewall"><a href="#Example-etc-config-firewall" class="headerlink" title="Example: /etc/config/firewall"></a>Example: <code>/etc/config/firewall</code></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config rule</span><br><span class="line">    option name <span class="string">&#x27;Allow-HTTP-WAN&#x27;</span></span><br><span class="line">    option src <span class="string">&#x27;wan&#x27;</span></span><br><span class="line">    option dest_port <span class="string">&#x27;80&#x27;</span></span><br><span class="line">    option proto <span class="string">&#x27;tcp&#x27;</span></span><br><span class="line">    option target <span class="string">&#x27;ACCEPT&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Example-etc-config-system"><a href="#Example-etc-config-system" class="headerlink" title="Example: /etc/config/system"></a>Example: <code>/etc/config/system</code></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">config system</span><br><span class="line">    option hostname <span class="string">&#x27;openwrt&#x27;</span></span><br><span class="line">    option timezone <span class="string">&#x27;CET-1CEST,M3.5.0,M10.5.0/3&#x27;</span></span><br><span class="line">    option ttylogin <span class="string">&#x27;0&#x27;</span></span><br><span class="line">    option log_size <span class="string">&#x27;64&#x27;</span></span><br><span class="line">    option urandom_seed <span class="string">&#x27;0&#x27;</span></span><br><span class="line">    option zonename <span class="string">&#x27;Europe/Rome&#x27;</span></span><br><span class="line">    option log_proto <span class="string">&#x27;udp&#x27;</span></span><br><span class="line">    option conloglevel <span class="string">&#x27;8&#x27;</span></span><br><span class="line">    option cronloglevel <span class="string">&#x27;5&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>Once done, the OpenWrt LuCI web interface is accessible from a browser.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/openwrt_login.png" alt="Openwrt Login Page" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Before going further, I installed a few essential packages:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">opkg update</span><br><span class="line">opkg install qemu-ga</span><br><span class="line">opkg install adguardhome</span><br><span class="line">opkg install wireguard-tools luci-app-wireguard luci-proto-wireguard</span><br><span class="line">opkg install qrencode</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Step-3-Drawing-the-Lines-with-VLANs-and-Firewalls"><a href="#Step-3-Drawing-the-Lines-with-VLANs-and-Firewalls" class="headerlink" title="Step 3: Drawing the Lines with VLANs and Firewalls"></a>Step 3: Drawing the Lines with VLANs and Firewalls</h2><p>This is where our blueprint starts to take shape. I used the LuCI interface <code>Network → Interfaces → Devices</code> to create the VLANs we planned:</p>
+<ul>
+<li><strong>VLAN 10:</strong> Administration</li>
+<li><strong>VLAN 20:</strong> Services</li>
+<li><strong>VLAN 30:</strong> DMZ</li>
+</ul>
+<p>Here the detailed steps:</p>
+<ol>
+<li>Navigate to <strong>Network → Interfaces → Devices</strong></li>
+<li>Click <strong>“Add device configuration…”</strong></li>
+<li>Choose <strong>“VLAN (802.1q)”</strong> as the device type</li>
+<li>Set:<ul>
+<li><strong>Base device</strong>: <code>eth1</code> (connected to <code>vmbr1</code>)  </li>
+<li><strong>VLAN ID</strong>: e.g. <code>10</code>, <code>20</code>, etc.</li>
+<li>Optionally, name the interface <code>vlan1.10</code>, <code>vlan1.20</code>, …</li>
+</ul>
+</li>
+</ol>
+<p>Repeat this for each VLAN.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/vlan_10.png" alt="Openwrt Configuration VLAN10" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Then go to <strong>Network → Interfaces</strong> and:</p>
+<ul>
+<li>Add an interface per VLAN (e.g. <code>vlan10</code>)</li>
+<li>Assign a static IP (e.g. <code>10.0.10.254</code>)</li>
+<li>Enable DHCP if desired</li>
+</ul>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/vlan10_interface_details.png" alt="Openwrt VLAN10 Interface Details" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<p>I configured <code>10.0.&#123;VLAN-ID&#125;.0/24</code> subnets with router IP <code>10.0.&#123;VLAN-ID&#125;.254</code>.</p>
+<h3 id="Example-generated-etc-config-network-snippet"><a href="#Example-generated-etc-config-network-snippet" class="headerlink" title="Example: generated /etc/config/network (snippet):"></a>Example: generated <code>/etc/config/network</code> (snippet):</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">config device</span><br><span class="line">    option <span class="built_in">type</span> <span class="string">&#x27;8021q&#x27;</span></span><br><span class="line">    option ifname <span class="string">&#x27;eth1&#x27;</span></span><br><span class="line">    option vid <span class="string">&#x27;10&#x27;</span></span><br><span class="line">    option name <span class="string">&#x27;vlan1.10&#x27;</span></span><br><span class="line"></span><br><span class="line">config interface <span class="string">&#x27;vlan10&#x27;</span></span><br><span class="line">    option proto <span class="string">&#x27;static&#x27;</span></span><br><span class="line">    option device <span class="string">&#x27;vlan1.10&#x27;</span></span><br><span class="line">    option ipaddr <span class="string">&#x27;10.0.10.254&#x27;</span></span><br><span class="line">    option netmask <span class="string">&#x27;255.255.255.0&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="DHCP-for-VLANs"><a href="#DHCP-for-VLANs" class="headerlink" title="DHCP for VLANs"></a>DHCP for VLANs</h3><p>In each interface’s DHCP settings:</p>
+<ul>
+<li>Click <strong>“Set up DHCP Server”</strong></li>
+<li>Use defaults unless customization is needed</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">config dhcp <span class="string">&#x27;vlan10&#x27;</span></span><br><span class="line">    option interface <span class="string">&#x27;vlan10&#x27;</span></span><br><span class="line">    list dhcp_option <span class="string">&#x27;6,10.0.10.254&#x27;</span></span><br><span class="line">    list dhcp_option <span class="string">&#x27;3,10.0.10.254&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/dhcp_settings_vlan10.png" alt="Openwrt DHCP Settings for VLAN 10" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+
+<h2 id="Firewall-Configuration-for-VLANs"><a href="#Firewall-Configuration-for-VLANs" class="headerlink" title="Firewall Configuration for VLANs"></a>Firewall Configuration for VLANs</h2><p>To manage VLAN isolation and access:</p>
+<ol>
+<li>Go to <strong>Network → Firewall → General Settings</strong></li>
+<li>Add a zone per VLAN (e.g. <code>vlan10</code>)</li>
+<li>Assign the corresponding interface</li>
+<li>If internet access is needed, allow forwarding to <code>wan</code></li>
+</ol>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/vlan10_firewall.png" alt="Openwrt VLAN 10 Firewall Example" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<p>I deleted the default LAN zone since all traffic is now routed through VLANs.</p>
+<p>By default, VLANs are <strong>isolated</strong>. To enable inter-VLAN communication, update the zone’s <strong>“Allow forward to destination zones”</strong> as needed.</p>
+<p>To prevent VLAN clients from accessing the WAN-side network directly, add a deny rule in <strong>Firewall → Traffic Rules</strong>.</p>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/isolate_wan.png" alt="Openwrt Isolate WAN Firewall rule" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+
+<h2 id="Step-4-Accessing-Our-Home-from-the-Outside-World"><a href="#Step-4-Accessing-Our-Home-from-the-Outside-World" class="headerlink" title="Step 4: Accessing Our Home from the Outside World"></a>Step 4: Accessing Our Home from the Outside World</h2><p>To securely connect to my home.local domain from anywhere, I needed a VPN. But since my home ISP router doesn’t have a static IP address, I first had to set up <strong>Dynamic DNS (DDNS)</strong>. This ensures my public domain name always points to my home’s current IP address.</p>
+<p>Since I purchased a public domain name through Cloudflare, I’ll use their platform as an example in this tutorial. However, the process is very similar across most domain providers, so you should be able to follow along regardless of which service you use.</p>
+<h3 id="Configuring-DDNS-with-Cloudflare"><a href="#Configuring-DDNS-with-Cloudflare" class="headerlink" title="Configuring DDNS with Cloudflare"></a>Configuring DDNS with Cloudflare</h3><p>I created a simple script that checks my public IP and uses the Cloudflare API to update my DNS record if it has changed.</p>
+<ol>
+<li><p><strong>Prerequisites:</strong> You’ll need your Cloudflare Zone ID, Record ID for the subdomain you’re using (e.g., <code>vpn.draka.me</code>), and an API token with DNS edit permissions.</p>
+</li>
+<li><p><strong>Install Required Tools:</strong> If missing, install the following tools on your openWrt machine:</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opkg install jq curl</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>DDNS Update Script:</strong> I created this file at <code>/etc/ddns/cloudflare.sh</code>.</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Cloudflare API configuration</span></span><br><span class="line">CLOUDFLARE_EMAIL=<span class="string">&quot;your_email&quot;</span></span><br><span class="line">CLOUDFLARE_API_KEY=<span class="string">&quot;your_token&quot;</span></span><br><span class="line">ZONE_ID=<span class="string">&quot;your_zone_id&quot;</span></span><br><span class="line">RECORD_ID=<span class="string">&quot;your_record_id&quot;</span></span><br><span class="line">DOMAIN=<span class="string">&quot;vpn.draka.me&quot;</span></span><br><span class="line">TTL=<span class="string">&quot;1&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Current public IP</span></span><br><span class="line">CURRENT_IP=$(curl -s http://ipinfo.io/ip)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Cloudflare&#x27;s current DNS IP</span></span><br><span class="line">CURRENT_CLOUDFLARE_IP=$(curl -s -X GET \</span><br><span class="line">  <span class="string">&quot;https://api.cloudflare.com/client/v4/zones/<span class="variable">$ZONE_ID</span>/dns_records/<span class="variable">$RECORD_ID</span>&quot;</span> \</span><br><span class="line">  -H <span class="string">&quot;X-Auth-Email: <span class="variable">$CLOUDFLARE_EMAIL</span>&quot;</span> \</span><br><span class="line">  -H <span class="string">&quot;X-Auth-Key: <span class="variable">$CLOUDFLARE_API_KEY</span>&quot;</span> | jq -r <span class="string">&#x27;.result.content&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$CURRENT_IP</span>&quot;</span> != <span class="string">&quot;<span class="variable">$CURRENT_CLOUDFLARE_IP</span>&quot;</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;Updating DNS...&quot;</span></span><br><span class="line">  curl -s -X PUT <span class="string">&quot;https://api.cloudflare.com/client/v4/zones/<span class="variable">$ZONE_ID</span>/dns_records/<span class="variable">$RECORD_ID</span>&quot;</span> \</span><br><span class="line">    -H <span class="string">&quot;X-Auth-Email: <span class="variable">$CLOUDFLARE_EMAIL</span>&quot;</span> \</span><br><span class="line">    -H <span class="string">&quot;X-Auth-Key: <span class="variable">$CLOUDFLARE_API_KEY</span>&quot;</span> \</span><br><span class="line">    -H <span class="string">&quot;Content-Type: application/json&quot;</span> \</span><br><span class="line">    --data <span class="string">&quot;&#123;\&quot;type\&quot;:\&quot;A\&quot;,\&quot;name\&quot;:\&quot;<span class="variable">$DOMAIN</span>\&quot;,\&quot;content\&quot;:\&quot;<span class="variable">$CURRENT_IP</span>\&quot;,\&quot;ttl\&quot;:<span class="variable">$TTL</span>,\&quot;proxied\&quot;:false&#125;&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;No update needed.&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong>Automation:</strong> I made the script executable and set up a cron job to run it every 10 minutes.g the script, make it executable and create a cronjob on openwrt vm to automate its execution.</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x /etc/ddns/cloudflare.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># Edit root&#x27;s crontab</span></span><br><span class="line">crontab -e</span><br><span class="line"></span><br><span class="line"><span class="comment"># Run every 10 minutes</span></span><br><span class="line">*/10 * * * * /etc/ddns/cloudflare.sh</span><br></pre></td></tr></table></figure>
+
+<p>Now your domain (e.g. <code>vpn.draka.me</code>) will always point to your latest public IP.</p>
+<h2 id="Setting-up-the-WireGuard-VPN"><a href="#Setting-up-the-WireGuard-VPN" class="headerlink" title="Setting up the WireGuard VPN"></a>Setting up the WireGuard VPN</h2><p>With DDNS running, I could now set up a stable <strong>WireGuard VPN</strong> server.</p>
+<ol>
+<li><strong>Install the Required Packages:</strong> Make sure the following packages are installed</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opkg install wireguard-tools luci-app-wireguard luci-proto-wireguard qrencode</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>Create the WireGuard Interface:</strong> In the LuCI UI under <code>Network → Interfaces</code>, I added a new interface named <code>wgvpn</code> with the “WireGuard VPN” protocol. I generated a new key pair and assigned it a static IP address (<code>10.0.100.1/24</code>) for the VPN subnet.</li>
+</ol>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/wireguard_3.png" alt="Openwrt Wireguard Interface" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+    
+<ol start="3">
+<li><strong>Add a Peer (Client):</strong> In the “Peers” tab, I added my laptop as a peer, assigned it an IP within the VPN subnet (<code>10.0.100.10/24</code>), and generated the client configuration file.</li>
+</ol>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/wireguard_5.png" alt="Openwrt Wireguard Peer 1/2" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<ol start="4">
+<li><strong>Configure the Firewall:</strong> I created a new firewall zone named <code>wgvpn</code> and assigned the <code>wgvpn</code> interface to it. Crucially, I added a traffic rule to allow incoming UDP traffic on port <code>51820</code> (the WireGuard port) from the WAN zone.</li>
+</ol>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/wireguard_7.png" alt="Openwrt Wireguard Firewall Settings" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/wireguard_firewall.png" alt="Openwrt Wireguard Firewall Rule" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<ol start="5">
+<li><strong>Port Forwarding:</strong> The final step was to log into my main ISP router and create a port forwarding rule to send all traffic on UDP port <code>51820</code> to the WAN IP of my OpenWrt VM (<code>192.168.1.71</code>).</li>
+</ol>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/port_forwarding.png" alt="ISP Router Port Forwarding Rule Set" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<p>Now, with a single command on my laptop, I can securely connect to my home.local domain, no matter where I am.</p>
+<h3 id="Connecting-to-the-VPN-from-My-Laptop"><a href="#Connecting-to-the-VPN-from-My-Laptop" class="headerlink" title="Connecting to the VPN from My Laptop"></a>Connecting to the VPN from My Laptop</h3><p>To connect to the VPN from your laptop:</p>
+<ol>
+<li>Install Wireguard Client, on debian based system:</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br><span class="line"><span class="built_in">sudo</span> apt install wireguard</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>Copy the previously generated configuration to <code>/etc/wireguard/wg0.conf</code></li>
+</ol>
+<p>e.g.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[Interface]</span><br><span class="line">PrivateKey = [ServerPrivateKey]</span><br><span class="line">Address = 10.0.100.10/32</span><br><span class="line">ListenPort = 51820</span><br><span class="line"></span><br><span class="line">[Peer]</span><br><span class="line">PublicKey = [YourPublicKey]</span><br><span class="line">PresharedKey = [ServerPresharedKey]</span><br><span class="line">AllowedIPs = 10.0.0.0/16</span><br><span class="line">Endpoint = vpn.draka.me:51820</span><br><span class="line">PersistentKeepAlive = 25</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>Then, to start the VPN tunnel, simply run:</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> wg-quick up wg0</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Step-5-The-Final-Polish-Smart-and-Clean-DNS-with-AdGuard-Home"><a href="#Step-5-The-Final-Polish-Smart-and-Clean-DNS-with-AdGuard-Home" class="headerlink" title="Step 5: The Final Polish: Smart and Clean DNS with AdGuard Home"></a>Step 5: The Final Polish: Smart and Clean DNS with AdGuard Home</h2><p>Now it’s the time to setup the DNS. In my setup, I want:</p>
+<ul>
+<li><p><strong>AdGuard Home</strong> to run on the default DNS port <code>53</code>, acting as the primary resolver for all clients.</p>
+</li>
+<li><p><strong>OpenWrt’s</strong> built-in <code>dnsmasq</code> moved to a different port (<code>5353</code>). It continues to handle DHCP and resolve local hostnames (like <code>pve.home.local</code>).</p>
+</li>
+<li><p>AdGuard is then configured to use <code>dnsmasq</code> (<code>127.0.0.1:5353</code>) as a private upstream resolver for local queries.</p>
+</li>
+</ul>
+<p>These are the setup steps I made on the openWrt machine:</p>
+<ol>
+<li><strong>Install the required package</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opkg install adguardhome</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>Visit the initial setup page at:</strong><a target="_blank" rel="noopener" href="http://192.168.1.71:3000/">http://192.168.1.71:3000</a><br> If it doesn’t load, create a temporary firewall rule to allow traffic on port 3000 from wan interface or temporarily stop the firewall:</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/firewall stop</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>Configure</strong> <code>dnsmasq:</code> edit configuration file at <code>/etc/config/dhcp</code>:</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">config dnsmasq</span><br><span class="line">    option domainneeded <span class="string">&#x27;1&#x27;</span></span><br><span class="line">    option localise_queries <span class="string">&#x27;1&#x27;</span></span><br><span class="line">    option rebind_protection <span class="string">&#x27;0&#x27;</span></span><br><span class="line">    option <span class="built_in">local</span> <span class="string">&#x27;/home.local/&#x27;</span></span><br><span class="line">    option domain <span class="string">&#x27;home.local&#x27;</span></span><br><span class="line">    option expandhosts <span class="string">&#x27;1&#x27;</span></span><br><span class="line">    option cachesize <span class="string">&#x27;1000&#x27;</span></span><br><span class="line">    option authoritative <span class="string">&#x27;1&#x27;</span></span><br><span class="line">    option readethers <span class="string">&#x27;1&#x27;</span></span><br><span class="line">    option leasefile <span class="string">&#x27;/tmp/dhcp.leases&#x27;</span></span><br><span class="line">    option resolvfile <span class="string">&#x27;/etc/resolv.conf&#x27;</span></span><br><span class="line">    option localservice <span class="string">&#x27;1&#x27;</span></span><br><span class="line">    option ednspacket_max <span class="string">&#x27;1232&#x27;</span></span><br><span class="line">    option sequential_ip <span class="string">&#x27;1&#x27;</span></span><br><span class="line">    option port <span class="string">&#x27;5353&#x27;</span></span><br><span class="line">    option noresolv <span class="string">&#x27;0&#x27;</span></span><br><span class="line">    list server <span class="string">&#x27;10.0.20.1&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>This keeps dnsmasq active for DHCP and local domain resolution, but delegates primary DNS to AdGuard.</p>
+<ol start="4">
+<li><strong>Configure Adguard Home from the Web UI</strong> at <a target="_blank" rel="noopener" href="http://192.168.1.71:3000/">http://192.168.1.71:3000</a><ol>
+<li>During setup configure Adguard to expose the web UI on port 8080 on management interface on vlan1.10 (10.0.10.254) and to expose DNS server on vlan1.20 (10.0.20.1)</li>
+</ol>
+</li>
+</ol>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/adguard_2.png" alt="Adguard Initial Setup" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+
+<pre><code>2. **DNS Settings → Upstream DNS servers**
+- Add: `127.0.0.1:5353`
+
+3. **Enable reverse DNS lookups**
+- Tick both “Use private reverse DNS resolvers” and “Enable reverse resolving of clients&#39; IP addresses” boxes under “Private reverse DNS resolvers”
+</code></pre>
+<div style="text-align: center; margin: 20px 0; padding: 10px;">
+  <img src="/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/adguard_7.png" alt="Adguard DNS Setup" style="margin: 0 -10%; max-width: 120%; height: auto; border-radius: 8px;">
+</div>
+    
+<p>Now, local hostnames and reverse DNS will resolve correctly via AdGuard Home.</p>
+<h2 id="Conclusion-The-Network-is-Forged"><a href="#Conclusion-The-Network-is-Forged" class="headerlink" title="Conclusion: The Network is Forged"></a>Conclusion: The Network is Forged</h2><p>With OpenWrt at the helm, we’ve successfully built a secure, segmented, and powerful network, the central nervous system of our self-hosting project. We have isolated zones for security, a rock-solid VPN for remote access, and clean, private DNS for all our devices.</p>
+<p>The network backbone is now firmly in place. This means we finally have a safe and structured environment to start building our services. And the most critical service of all is the one that holds our data.</p>
+<p>In the next post, we will shift our focus from networking to storage. It’s time to build the heart of our system: a resilient <strong>Network Attached Storage (NAS)</strong> solution. I’ll walk through configuring our remaining SSDs into a <strong>RAID-1 mirror with ZFS</strong>, setting up a dedicated NAS machine, and planning our offsite backup strategy to ensure our data is safe, secure, and always available.</p>
+<p><strong>Stay tuned! 🚀</strong></p>
+
+  </div>
+</article>
+
+
+    <div class="blog-post-comments">
+        <div id="utterances_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/search/">Search</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-OpenWrt"><span class="toc-number">1.</span> <span class="toc-text">Why OpenWrt?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-1-Giving-Our-Router-a-Virtual-Home"><span class="toc-number">2.</span> <span class="toc-text">Step 1: Giving Our Router a Virtual Home</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LXC-Container-Lightweight-Alternative"><span class="toc-number">2.1.</span> <span class="toc-text">LXC Container (Lightweight Alternative)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-2-The-Initial-Configuration"><span class="toc-number">3.</span> <span class="toc-text">Step 2: The Initial Configuration</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-etc-config-network"><span class="toc-number">3.1.</span> <span class="toc-text">Example: &#x2F;etc&#x2F;config&#x2F;network</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-etc-config-firewall"><span class="toc-number">3.2.</span> <span class="toc-text">Example: &#x2F;etc&#x2F;config&#x2F;firewall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-etc-config-system"><span class="toc-number">3.3.</span> <span class="toc-text">Example: &#x2F;etc&#x2F;config&#x2F;system</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-3-Drawing-the-Lines-with-VLANs-and-Firewalls"><span class="toc-number">4.</span> <span class="toc-text">Step 3: Drawing the Lines with VLANs and Firewalls</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Example-generated-etc-config-network-snippet"><span class="toc-number">4.1.</span> <span class="toc-text">Example: generated &#x2F;etc&#x2F;config&#x2F;network (snippet):</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DHCP-for-VLANs"><span class="toc-number">4.2.</span> <span class="toc-text">DHCP for VLANs</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Firewall-Configuration-for-VLANs"><span class="toc-number">5.</span> <span class="toc-text">Firewall Configuration for VLANs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-4-Accessing-Our-Home-from-the-Outside-World"><span class="toc-number">6.</span> <span class="toc-text">Step 4: Accessing Our Home from the Outside World</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuring-DDNS-with-Cloudflare"><span class="toc-number">6.1.</span> <span class="toc-text">Configuring DDNS with Cloudflare</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Setting-up-the-WireGuard-VPN"><span class="toc-number">7.</span> <span class="toc-text">Setting up the WireGuard VPN</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Connecting-to-the-VPN-from-My-Laptop"><span class="toc-number">7.1.</span> <span class="toc-text">Connecting to the VPN from My Laptop</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Step-5-The-Final-Polish-Smart-and-Clean-DNS-with-AdGuard-Home"><span class="toc-number">8.</span> <span class="toc-text">Step 5: The Final Polish: Smart and Clean DNS with AdGuard Home</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion-The-Network-is-Forged"><span class="toc-number">9.</span> <span class="toc-text">Conclusion: The Network is Forged</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&text=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&title=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&is_video=false&description=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT&body=Check out this article: https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&title=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&title=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&title=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&title=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&name=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://draka15.github.io/Self-Hosting-Journey-Part-5-Wiring-the-Network-with-OpenWRT/&t=Self-Hosting Journey - Part 5 - Wiring the Network with OpenWRT"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024-2026
+    Luca Santini
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/draka15">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+<link rel="stylesheet" href="/css/asciinema-player.css">
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+    <script type="text/javascript">
+      var utterances_repo = 'draka15/draka-blog';
+      var utterances_issue_term = 'pathname';
+      var utterances_label = 'Comment';
+      var utterances_theme = 'gruvbox-dark';
+
+      (function(){
+          var script = document.createElement('script');
+
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', utterances_repo);
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('label', utterances_label);
+          script.setAttribute('theme', utterances_theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          (document.getElementById('utterances_thread')).appendChild(script);
+      }());
+  </script>
+
+<script src="/js/asciinema-player.min.js"></script>
+
+</body>
+</html>
